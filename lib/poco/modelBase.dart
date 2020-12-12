@@ -1,0 +1,1 @@
+class ModelBase extends Object {}
