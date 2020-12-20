@@ -3,18 +3,18 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:hypertools/poco/enum_values.dart';
 
 class ErrorExceptionResult<T> {
-  ErrorExceptionResult({
-    this.status,
-    this.title,
-    this.traceId,
-    this.errorMessage,
-    this.errorType,
-    this.linkFile,
-    this.isSuccess,
-    this.item,
-    this.listItems,
-    this.jsonConverter,
-  });
+  ErrorExceptionResult(
+      {this.status,
+      this.title,
+      this.traceId,
+      this.errorMessage,
+      this.errorType,
+      this.linkFile,
+      this.isSuccess,
+      this.item,
+      this.listItems,
+      this.jsonConverter,
+      this.isConnectedToInternet});
 
   T Function(Object json) jsonConverter;
 
@@ -54,26 +54,31 @@ class ErrorExceptionResult<T> {
   @JsonKey(name: 'RowPerPage')
   int rowPerPage;
 
+  @JsonKey(ignore: true)
+  bool isConnectedToInternet = true;
+
   // DataAccessModel access;
 
   // static ErrorExceptionResult fromJsonObject(Object json,jsonConverter)
 
-  ErrorExceptionResult<T> fromJson(Map<String, dynamic> json) =>
-      ErrorExceptionResult<T>(
-        status: json['Status'] as int,
-        title: json['Title'] as String,
-        traceId: json['traceId'] as String,
-        errorMessage: json['ErrorMessage'] as String,
-        // errorType:
-        //     _$enumDecodeError(_$ResultErrorTypeEnumMap, json['ErrorType']),
-        linkFile: json['LinkFile'] as String,
-        isSuccess: json['IsSuccess'] as bool,
-        item: jsonConverter(json['Item']),
-        listItems: (json['ListItems'] as List).map(jsonConverter).toList(),
-      )
-        ..currentPageNumber = json['CurrentPageNumber'] as int
-        ..totalRowCount = json['TotalRowCount'] as int
-        ..rowPerPage = json['RowPerPage'] as int;
+  ErrorExceptionResult<T> fromJson(Map<String, dynamic> json) {
+    // print(json['Item']);
+    return ErrorExceptionResult<T>(
+      status: json['Status'] as int,
+      title: json['Title'] as String,
+      traceId: json['traceId'] as String,
+      errorMessage: json['ErrorMessage'] as String,
+      // errorType:
+      //     _$enumDecodeError(_$ResultErrorTypeEnumMap, json['ErrorType']),
+      linkFile: json['LinkFile'] as String,
+      isSuccess: json['IsSuccess'] as bool,
+      item: jsonConverter(json['Item']),
+      listItems: (json['ListItems'] as List).map(jsonConverter).toList(),
+    )
+      ..currentPageNumber = json['CurrentPageNumber'] as int
+      ..totalRowCount = json['TotalRowCount'] as int
+      ..rowPerPage = json['RowPerPage'] as int;
+  }
 
   T _$enumDecodeError<T>(
     Map<T, dynamic> enumValues,

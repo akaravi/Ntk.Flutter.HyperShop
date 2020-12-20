@@ -8,39 +8,39 @@ part 'authUserSignInModel.g.dart';
 class AuthUserSignInModel extends ModelBase {
   AuthUserSignInModel({this.captchaKey,this.captchaText,this.email,this.mobile,this.password,this.isRemember,this.siteId,this.resellerSiteId,this.lang});
 
-  @JsonKey(name:'CaptchaKey')
+  @JsonKey(name:'CaptchaKey', nullable: true)
   String captchaKey;
 
 
-  @JsonKey(name:'CaptchaText')
+  @JsonKey(name:'CaptchaText', nullable: true)
   String captchaText;
 
 
-  @JsonKey(name:'Email')
+  @JsonKey(name:'Email', nullable: true)
   String email;
 
 
-  @JsonKey(name:'Mobile')
+  @JsonKey(name:'Mobile', nullable: true)
   String mobile;
 
 
-  @JsonKey(name:'Password')
+  @JsonKey(name:'Password', nullable: true)
   String password;
 
 
-  @JsonKey(name:'IsRemember')
+  @JsonKey(name:'IsRemember', nullable: true)
   bool isRemember;
 
 
-  @JsonKey(name:'SiteId')
+  @JsonKey(name:'SiteId', nullable: true)
   int siteId;
 
 
-  @JsonKey(name:'ResellerSiteId')
+  @JsonKey(name:'ResellerSiteId', nullable: true)
   int resellerSiteId;
 
 
-  @JsonKey(name:'lang')
+  @JsonKey(name:'lang', nullable: true)
   String lang;
 
 
@@ -48,8 +48,13 @@ class AuthUserSignInModel extends ModelBase {
 
   static AuthUserSignInModel fromJsonObject(Object value) => AuthUserSignInModel.fromJson(value);
 
-  factory AuthUserSignInModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthUserSignInModelFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthUserSignInModelToJson(this);
+  factory AuthUserSignInModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$AuthUserSignInModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$AuthUserSignInModelToJson(this);
+      return rt;
+  }
 }
 

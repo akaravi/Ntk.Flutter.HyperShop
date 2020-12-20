@@ -8,35 +8,35 @@ part 'authUserSignInBySmsDtoModel.g.dart';
 class AuthUserSignInBySmsDtoModel extends ModelBase {
   AuthUserSignInBySmsDtoModel({this.captchaKey,this.captchaText,this.mobile,this.code,this.lang,this.siteId,this.resellerSiteId,this.isRemember});
 
-  @JsonKey(name:'CaptchaKey')
+  @JsonKey(name:'CaptchaKey', nullable: true)
   String captchaKey;
 
 
-  @JsonKey(name:'CaptchaText')
+  @JsonKey(name:'CaptchaText', nullable: true)
   String captchaText;
 
 
-  @JsonKey(name:'Mobile')
+  @JsonKey(name:'Mobile', nullable: true)
   String mobile;
 
 
-  @JsonKey(name:'Code')
+  @JsonKey(name:'Code', nullable: true)
   String code;
 
 
-  @JsonKey(name:'lang')
+  @JsonKey(name:'lang', nullable: true)
   String lang;
 
 
-  @JsonKey(name:'SiteId')
+  @JsonKey(name:'SiteId', nullable: true)
   int siteId;
 
 
-  @JsonKey(name:'ResellerSiteId')
+  @JsonKey(name:'ResellerSiteId', nullable: true)
   int resellerSiteId;
 
 
-  @JsonKey(name:'IsRemember')
+  @JsonKey(name:'IsRemember', nullable: true)
   bool isRemember;
 
 
@@ -44,8 +44,13 @@ class AuthUserSignInBySmsDtoModel extends ModelBase {
 
   static AuthUserSignInBySmsDtoModel fromJsonObject(Object value) => AuthUserSignInBySmsDtoModel.fromJson(value);
 
-  factory AuthUserSignInBySmsDtoModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthUserSignInBySmsDtoModelFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthUserSignInBySmsDtoModelToJson(this);
+  factory AuthUserSignInBySmsDtoModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$AuthUserSignInBySmsDtoModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$AuthUserSignInBySmsDtoModelToJson(this);
+      return rt;
+  }
 }
 

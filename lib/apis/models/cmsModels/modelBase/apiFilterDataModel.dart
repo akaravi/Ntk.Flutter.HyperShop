@@ -9,35 +9,35 @@ part 'apiFilterDataModel.g.dart';
 class ApiFilterDataModel extends ModelBase {
   ApiFilterDataModel({this.filters,this.value,this.clauseType,this.searchType,this.propertyName,this.intValueForceNullSearch,this.decimalForceNullSearch,this.stringValueForceNullSearch});
 
-  @JsonKey(name:'Filters')
+  @JsonKey(name:'Filters', nullable: true)
   List<ApiFilterDataModel> filters;
 
 
-  @JsonKey(name:'value')
+  @JsonKey(name:'value', nullable: true)
   String value;
 
 
-  @JsonKey(name:'ClauseType')
+  @JsonKey(ignore: true)
   ClauseType clauseType;
 
 
-  @JsonKey(name:'SearchType')
+  @JsonKey(ignore: true)
   FilterDataModelSearchTypes searchType;
 
 
-  @JsonKey(name:'PropertyName')
+  @JsonKey(name:'PropertyName', nullable: true)
   String propertyName;
 
 
-  @JsonKey(name:'IntValueForceNullSearch')
+  @JsonKey(name:'IntValueForceNullSearch', nullable: true)
   bool intValueForceNullSearch;
 
 
-  @JsonKey(name:'DecimalForceNullSearch')
+  @JsonKey(name:'DecimalForceNullSearch', nullable: true)
   bool decimalForceNullSearch;
 
 
-  @JsonKey(name:'StringValueForceNullSearch')
+  @JsonKey(name:'StringValueForceNullSearch', nullable: true)
   bool stringValueForceNullSearch;
 
 
@@ -45,8 +45,17 @@ class ApiFilterDataModel extends ModelBase {
 
   static ApiFilterDataModel fromJsonObject(Object value) => ApiFilterDataModel.fromJson(value);
 
-  factory ApiFilterDataModel.fromJson(Map<String, dynamic> json) =>
-      _$ApiFilterDataModelFromJson(json);
-  Map<String, dynamic> toJson() => _$ApiFilterDataModelToJson(this);
+  factory ApiFilterDataModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$ApiFilterDataModelFromJson(json);
+      rt.clauseType = EnumMapper$ClauseTypeConverter.fromJson(json['ClauseType']);
+      rt.searchType = EnumMapper$FilterDataModelSearchTypesConverter.fromJson(json['SearchType']);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$ApiFilterDataModelToJson(this);
+      rt['ClauseType'] = EnumMapper$ClauseTypeConverter.toJson(clauseType);
+      rt['SearchType'] = EnumMapper$FilterDataModelSearchTypesConverter.toJson(searchType);
+      return rt;
+  }
 }
 

@@ -9,35 +9,35 @@ part 'errorExcptionResult.g.dart';
 class ErrorExcptionResult extends ModelBase {
   ErrorExcptionResult({this.status,this.errors,this.title,this.traceId,this.errorMessage,this.errorType,this.linkFile,this.isSuccess});
 
-  @JsonKey(name:'Status')
+  @JsonKey(name:'Status', nullable: true)
   int status;
 
 
-  @JsonKey(name:'errors')
+  @JsonKey(name:'errors', nullable: true)
   List<String> errors;
 
 
-  @JsonKey(name:'Title')
+  @JsonKey(name:'Title', nullable: true)
   String title;
 
 
-  @JsonKey(name:'traceId')
+  @JsonKey(name:'traceId', nullable: true)
   String traceId;
 
 
-  @JsonKey(name:'ErrorMessage')
+  @JsonKey(name:'ErrorMessage', nullable: true)
   String errorMessage;
 
 
-  @JsonKey(name:'ErrorType')
+  @JsonKey(ignore: true)
   ResultErrorType errorType;
 
 
-  @JsonKey(name:'LinkFile')
+  @JsonKey(name:'LinkFile', nullable: true)
   String linkFile;
 
 
-  @JsonKey(name:'IsSuccess')
+  @JsonKey(name:'IsSuccess', nullable: true)
   bool isSuccess;
 
 
@@ -45,8 +45,15 @@ class ErrorExcptionResult extends ModelBase {
 
   static ErrorExcptionResult fromJsonObject(Object value) => ErrorExcptionResult.fromJson(value);
 
-  factory ErrorExcptionResult.fromJson(Map<String, dynamic> json) =>
-      _$ErrorExcptionResultFromJson(json);
-  Map<String, dynamic> toJson() => _$ErrorExcptionResultToJson(this);
+  factory ErrorExcptionResult.fromJson(Map<String, dynamic> json) {
+      var rt = _$ErrorExcptionResultFromJson(json);
+      rt.errorType = EnumMapper$ResultErrorTypeConverter.fromJson(json['ErrorType']);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$ErrorExcptionResultToJson(this);
+      rt['ErrorType'] = EnumMapper$ResultErrorTypeConverter.toJson(errorType);
+      return rt;
+  }
 }
 

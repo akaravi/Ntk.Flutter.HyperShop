@@ -8,11 +8,11 @@ part 'authUserChangePasswordModel.g.dart';
 class AuthUserChangePasswordModel extends ModelBase {
   AuthUserChangePasswordModel({this.oldPassword,this.newPassword});
 
-  @JsonKey(name:'OldPassword')
+  @JsonKey(name:'OldPassword', nullable: true)
   String oldPassword;
 
 
-  @JsonKey(name:'NewPassword')
+  @JsonKey(name:'NewPassword', nullable: true)
   String newPassword;
 
 
@@ -20,8 +20,13 @@ class AuthUserChangePasswordModel extends ModelBase {
 
   static AuthUserChangePasswordModel fromJsonObject(Object value) => AuthUserChangePasswordModel.fromJson(value);
 
-  factory AuthUserChangePasswordModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthUserChangePasswordModelFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthUserChangePasswordModelToJson(this);
+  factory AuthUserChangePasswordModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$AuthUserChangePasswordModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$AuthUserChangePasswordModelToJson(this);
+      return rt;
+  }
 }
 

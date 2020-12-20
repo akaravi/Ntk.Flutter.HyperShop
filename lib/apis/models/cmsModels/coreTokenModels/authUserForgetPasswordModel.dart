@@ -8,19 +8,19 @@ part 'authUserForgetPasswordModel.g.dart';
 class AuthUserForgetPasswordModel extends ModelBase {
   AuthUserForgetPasswordModel({this.captchaKey,this.captchaText,this.email,this.mobile});
 
-  @JsonKey(name:'CaptchaKey')
+  @JsonKey(name:'CaptchaKey', nullable: true)
   String captchaKey;
 
 
-  @JsonKey(name:'CaptchaText')
+  @JsonKey(name:'CaptchaText', nullable: true)
   String captchaText;
 
 
-  @JsonKey(name:'Email')
+  @JsonKey(name:'Email', nullable: true)
   String email;
 
 
-  @JsonKey(name:'Mobile')
+  @JsonKey(name:'Mobile', nullable: true)
   String mobile;
 
 
@@ -28,8 +28,13 @@ class AuthUserForgetPasswordModel extends ModelBase {
 
   static AuthUserForgetPasswordModel fromJsonObject(Object value) => AuthUserForgetPasswordModel.fromJson(value);
 
-  factory AuthUserForgetPasswordModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthUserForgetPasswordModelFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthUserForgetPasswordModelToJson(this);
+  factory AuthUserForgetPasswordModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$AuthUserForgetPasswordModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$AuthUserForgetPasswordModelToJson(this);
+      return rt;
+  }
 }
 

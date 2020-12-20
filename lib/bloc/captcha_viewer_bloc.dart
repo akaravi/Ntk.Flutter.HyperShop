@@ -6,7 +6,8 @@ import 'main_user_bloc.dart';
 
 class CaptchaViewerBloc extends Object {
   final MainUserBloc parent;
-  CaptchaViewerBloc(this.parent);
+  final StreamHelper<String> streamNotConnected;
+  CaptchaViewerBloc(this.parent, {this.streamNotConnected});
 
   StreamHelper<bool> loadingIndicator = StreamHelper<bool>(initValue: false);
   StreamHelper<String> captchaUserValue = StreamHelper<String>(initValue: '');

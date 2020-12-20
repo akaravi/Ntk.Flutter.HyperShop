@@ -8,7 +8,7 @@ part of 'authUserSignOutModel.dart';
 
 AuthUserSignOutModel _$AuthUserSignOutModelFromJson(Map<String, dynamic> json) {
   return AuthUserSignOutModel(
-    tokens: (json['Tokens'] as List).map((e) => e as String).toList(),
+    tokens: (json['Tokens'] as List)?.map((e) => e as String)?.toList(),
     allToken: json['AllToken'] as bool,
   );
 }

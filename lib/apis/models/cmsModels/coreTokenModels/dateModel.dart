@@ -8,11 +8,11 @@ part 'dateModel.g.dart';
 class DateModel extends ModelBase {
   DateModel({this.now,this.utcNow});
 
-  @JsonKey(name:'Now')
+  @JsonKey(name:'Now', nullable: true)
   DateTime now;
 
 
-  @JsonKey(name:'UtcNow')
+  @JsonKey(name:'UtcNow', nullable: true)
   DateTime utcNow;
 
 
@@ -20,8 +20,13 @@ class DateModel extends ModelBase {
 
   static DateModel fromJsonObject(Object value) => DateModel.fromJson(value);
 
-  factory DateModel.fromJson(Map<String, dynamic> json) =>
-      _$DateModelFromJson(json);
-  Map<String, dynamic> toJson() => _$DateModelToJson(this);
+  factory DateModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$DateModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$DateModelToJson(this);
+      return rt;
+  }
 }
 

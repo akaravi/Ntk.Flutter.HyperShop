@@ -8,23 +8,23 @@ part 'authRenewTokenModel.g.dart';
 class AuthRenewTokenModel extends ModelBase {
   AuthRenewTokenModel({this.siteId,this.userId,this.userAccessAdminAllowToAllData,this.userAccessAdminAllowToProfessionalData,this.lang});
 
-  @JsonKey(name:'SiteId')
+  @JsonKey(name:'SiteId', nullable: true)
   int siteId;
 
 
-  @JsonKey(name:'UserId')
+  @JsonKey(name:'UserId', nullable: true)
   int userId;
 
 
-  @JsonKey(name:'UserAccessAdminAllowToAllData')
+  @JsonKey(name:'UserAccessAdminAllowToAllData', nullable: true)
   bool userAccessAdminAllowToAllData;
 
 
-  @JsonKey(name:'UserAccessAdminAllowToProfessionalData')
+  @JsonKey(name:'UserAccessAdminAllowToProfessionalData', nullable: true)
   bool userAccessAdminAllowToProfessionalData;
 
 
-  @JsonKey(name:'lang')
+  @JsonKey(name:'lang', nullable: true)
   String lang;
 
 
@@ -32,8 +32,13 @@ class AuthRenewTokenModel extends ModelBase {
 
   static AuthRenewTokenModel fromJsonObject(Object value) => AuthRenewTokenModel.fromJson(value);
 
-  factory AuthRenewTokenModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthRenewTokenModelFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthRenewTokenModelToJson(this);
+  factory AuthRenewTokenModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$AuthRenewTokenModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$AuthRenewTokenModelToJson(this);
+      return rt;
+  }
 }
 

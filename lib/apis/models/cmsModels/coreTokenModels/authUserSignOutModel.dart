@@ -8,11 +8,11 @@ part 'authUserSignOutModel.g.dart';
 class AuthUserSignOutModel extends ModelBase {
   AuthUserSignOutModel({this.tokens,this.allToken});
 
-  @JsonKey(name:'Tokens')
+  @JsonKey(name:'Tokens', nullable: true)
   List<String> tokens;
 
 
-  @JsonKey(name:'AllToken')
+  @JsonKey(name:'AllToken', nullable: true)
   bool allToken;
 
 
@@ -20,8 +20,13 @@ class AuthUserSignOutModel extends ModelBase {
 
   static AuthUserSignOutModel fromJsonObject(Object value) => AuthUserSignOutModel.fromJson(value);
 
-  factory AuthUserSignOutModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthUserSignOutModelFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthUserSignOutModelToJson(this);
+  factory AuthUserSignOutModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$AuthUserSignOutModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$AuthUserSignOutModelToJson(this);
+      return rt;
+  }
 }
 

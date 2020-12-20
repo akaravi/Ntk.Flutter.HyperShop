@@ -1,25 +1,36 @@
 import 'package:hypertools/poco/modelBase.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+
 part 'captchaInfoModel.g.dart';
 
 @JsonSerializable(nullable: false)
 class CaptchaInfoModel extends ModelBase {
-  CaptchaInfoModel({this.expire, this.key, this.image});
+  CaptchaInfoModel({this.expire,this.key,this.image});
 
-  @JsonKey(name: 'Expire')
+  @JsonKey(name:'Expire', nullable: true)
   DateTime expire;
 
-  @JsonKey(name: 'Key')
+
+  @JsonKey(name:'Key', nullable: true)
   String key;
 
-  @JsonKey(name: 'Image')
+
+  @JsonKey(name:'image', nullable: true)
   String image;
 
-  static CaptchaInfoModel fromJsonObject(Object value) =>
-      CaptchaInfoModel.fromJson(value);
 
-  factory CaptchaInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$CaptchaInfoModelFromJson(json);
-  Map<String, dynamic> toJson() => _$CaptchaInfoModelToJson(this);
+
+
+  static CaptchaInfoModel fromJsonObject(Object value) => CaptchaInfoModel.fromJson(value);
+
+  factory CaptchaInfoModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$CaptchaInfoModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$CaptchaInfoModelToJson(this);
+      return rt;
+  }
 }
+

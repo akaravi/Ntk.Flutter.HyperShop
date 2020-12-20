@@ -11,43 +11,43 @@ part 'apiFilterModel.g.dart';
 class ApiFilterModel extends ModelBase {
   ApiFilterModel({this.exportFile,this.filters,this.accessLoad,this.countLoad,this.totalRowData,this.skipRowData,this.currentPageNumber,this.rowPerPage,this.sortType,this.sortColumn});
 
-  @JsonKey(name:'ExportFile')
+  @JsonKey(name:'ExportFile', nullable: true)
   ExportFileModel exportFile;
 
 
-  @JsonKey(name:'Filters')
+  @JsonKey(name:'Filters', nullable: true)
   List<ApiFilterDataModel> filters;
 
 
-  @JsonKey(name:'AccessLoad')
+  @JsonKey(name:'AccessLoad', nullable: true)
   bool accessLoad;
 
 
-  @JsonKey(name:'CountLoad')
+  @JsonKey(name:'CountLoad', nullable: true)
   bool countLoad;
 
 
-  @JsonKey(name:'TotalRowData')
+  @JsonKey(name:'TotalRowData', nullable: true)
   int totalRowData;
 
 
-  @JsonKey(name:'SkipRowData')
+  @JsonKey(name:'SkipRowData', nullable: true)
   int skipRowData;
 
 
-  @JsonKey(name:'CurrentPageNumber')
+  @JsonKey(name:'CurrentPageNumber', nullable: true)
   int currentPageNumber;
 
 
-  @JsonKey(name:'RowPerPage')
+  @JsonKey(name:'RowPerPage', nullable: true)
   int rowPerPage;
 
 
-  @JsonKey(name:'SortType')
+  @JsonKey(ignore: true)
   SortType sortType;
 
 
-  @JsonKey(name:'SortColumn')
+  @JsonKey(name:'SortColumn', nullable: true)
   String sortColumn;
 
 
@@ -55,8 +55,15 @@ class ApiFilterModel extends ModelBase {
 
   static ApiFilterModel fromJsonObject(Object value) => ApiFilterModel.fromJson(value);
 
-  factory ApiFilterModel.fromJson(Map<String, dynamic> json) =>
-      _$ApiFilterModelFromJson(json);
-  Map<String, dynamic> toJson() => _$ApiFilterModelToJson(this);
+  factory ApiFilterModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$ApiFilterModelFromJson(json);
+      rt.sortType = EnumMapper$SortTypeConverter.fromJson(json['SortType']);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$ApiFilterModelToJson(this);
+      rt['SortType'] = EnumMapper$SortTypeConverter.toJson(sortType);
+      return rt;
+  }
 }
 

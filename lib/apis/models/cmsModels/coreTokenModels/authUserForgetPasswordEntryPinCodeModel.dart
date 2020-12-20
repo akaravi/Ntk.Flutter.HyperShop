@@ -8,23 +8,23 @@ part 'authUserForgetPasswordEntryPinCodeModel.g.dart';
 class AuthUserForgetPasswordEntryPinCodeModel extends ModelBase {
   AuthUserForgetPasswordEntryPinCodeModel({this.captchaKey,this.captchaText,this.email,this.activateCode,this.newPassword});
 
-  @JsonKey(name:'CaptchaKey')
+  @JsonKey(name:'CaptchaKey', nullable: true)
   String captchaKey;
 
 
-  @JsonKey(name:'CaptchaText')
+  @JsonKey(name:'CaptchaText', nullable: true)
   String captchaText;
 
 
-  @JsonKey(name:'email')
+  @JsonKey(name:'email', nullable: true)
   String email;
 
 
-  @JsonKey(name:'ActivateCode')
+  @JsonKey(name:'ActivateCode', nullable: true)
   String activateCode;
 
 
-  @JsonKey(name:'NewPassword')
+  @JsonKey(name:'NewPassword', nullable: true)
   String newPassword;
 
 
@@ -32,8 +32,13 @@ class AuthUserForgetPasswordEntryPinCodeModel extends ModelBase {
 
   static AuthUserForgetPasswordEntryPinCodeModel fromJsonObject(Object value) => AuthUserForgetPasswordEntryPinCodeModel.fromJson(value);
 
-  factory AuthUserForgetPasswordEntryPinCodeModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthUserForgetPasswordEntryPinCodeModelFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthUserForgetPasswordEntryPinCodeModelToJson(this);
+  factory AuthUserForgetPasswordEntryPinCodeModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$AuthUserForgetPasswordEntryPinCodeModelFromJson(json);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$AuthUserForgetPasswordEntryPinCodeModelToJson(this);
+      return rt;
+  }
 }
 

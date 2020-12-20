@@ -9,27 +9,27 @@ part 'tokenDeviceClientInfoDtoModel.g.dart';
 class TokenDeviceClientInfoDtoModel extends ModelBase {
   TokenDeviceClientInfoDtoModel({this.securityKey,this.notificationId,this.clientMACAddress,this.oSType,this.deviceType,this.packageName});
 
-  @JsonKey(name:'SecurityKey')
+  @JsonKey(name:'SecurityKey', nullable: true)
   String securityKey;
 
 
-  @JsonKey(name:'NotificationId')
+  @JsonKey(name:'NotificationId', nullable: true)
   String notificationId;
 
 
-  @JsonKey(name:'ClientMACAddress')
+  @JsonKey(name:'ClientMACAddress', nullable: true)
   String clientMACAddress;
 
 
-  @JsonKey(name:'OSType')
+  @JsonKey(ignore: true)
   EnumOperatingSystemType oSType;
 
 
-  @JsonKey(name:'DeviceType')
+  @JsonKey(ignore: true)
   EnumDeviceType deviceType;
 
 
-  @JsonKey(name:'PackageName')
+  @JsonKey(name:'PackageName', nullable: true)
   String packageName;
 
 
@@ -37,8 +37,17 @@ class TokenDeviceClientInfoDtoModel extends ModelBase {
 
   static TokenDeviceClientInfoDtoModel fromJsonObject(Object value) => TokenDeviceClientInfoDtoModel.fromJson(value);
 
-  factory TokenDeviceClientInfoDtoModel.fromJson(Map<String, dynamic> json) =>
-      _$TokenDeviceClientInfoDtoModelFromJson(json);
-  Map<String, dynamic> toJson() => _$TokenDeviceClientInfoDtoModelToJson(this);
+  factory TokenDeviceClientInfoDtoModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$TokenDeviceClientInfoDtoModelFromJson(json);
+      rt.oSType = EnumMapper$EnumOperatingSystemTypeConverter.fromJson(json['OSType']);
+      rt.deviceType = EnumMapper$EnumDeviceTypeConverter.fromJson(json['DeviceType']);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$TokenDeviceClientInfoDtoModelToJson(this);
+      rt['OSType'] = EnumMapper$EnumOperatingSystemTypeConverter.toJson(oSType);
+      rt['DeviceType'] = EnumMapper$EnumDeviceTypeConverter.toJson(deviceType);
+      return rt;
+  }
 }
 

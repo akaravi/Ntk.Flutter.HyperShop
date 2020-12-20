@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hypertools/poco/screen_config.dart';
 
-final double topBasePaddingValue = 20.0;
 final String privacyTermUrl = 'http://ntk.ir/privacy';
 final String baseApiUrl = 'https://apicms.ir/api/v1/';
+final String acceptTermDescription = 'قبول کلیه شرایط و قوانین جمهوری اسلامی';
+final bool showAcceptTerm = true;
+final String tokenPackageName = 'ntk.android.hypershop.app67';
+final String lookupAddressForCheckInternetConnection = 'google.com';
 
 final double graphicDesignWidth = 1440;
 final double graphicDesignHeight = 2960;
-
+final double topBasePaddingValue = 20.0;
 EdgeInsets topBasePaddingEdge() => EdgeInsets.only(top: topBasePaddingValue);
 
 Widget topBasePadding() {

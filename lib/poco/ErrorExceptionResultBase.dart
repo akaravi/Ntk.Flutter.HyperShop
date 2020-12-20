@@ -3,15 +3,15 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:hypertools/poco/enum_values.dart';
 
 class ErrorExceptionResultBase {
-  ErrorExceptionResultBase({
-    this.status,
-    this.title,
-    this.traceId,
-    this.errorMessage,
-    this.errorType,
-    this.linkFile,
-    this.isSuccess,
-  });
+  ErrorExceptionResultBase(
+      {this.status,
+      this.title,
+      this.traceId,
+      this.errorMessage,
+      this.errorType,
+      this.linkFile,
+      this.isSuccess,
+      this.isConnectedToInternet});
 
   @JsonKey(name: 'Status')
   int status;
@@ -34,7 +34,17 @@ class ErrorExceptionResultBase {
   @JsonKey(name: 'IsSuccess')
   bool isSuccess;
 
+  @JsonKey(ignore: true)
+  bool isConnectedToInternet = true;
   // DataAccessModel access;
+
+  static ErrorExceptionResultBase fail(String error) {
+    return ErrorExceptionResultBase(isSuccess: false, errorMessage: error);
+  }
+
+  static ErrorExceptionResultBase success() {
+    return ErrorExceptionResultBase(isSuccess: true);
+  }
 
   ErrorExceptionResultBase fromJson(Map<String, dynamic> json) =>
       ErrorExceptionResultBase(

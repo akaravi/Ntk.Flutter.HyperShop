@@ -9,15 +9,15 @@ part 'exportFileModel.g.dart';
 class ExportFileModel extends ModelBase {
   ExportFileModel({this.fileType,this.recieveMethod,this.rowCount});
 
-  @JsonKey(name:'FileType')
+  @JsonKey(ignore: true)
   EnumExportFileType fileType;
 
 
-  @JsonKey(name:'RecieveMethod')
+  @JsonKey(ignore: true)
   EnumExportReceiveMethod recieveMethod;
 
 
-  @JsonKey(name:'RowCount')
+  @JsonKey(name:'RowCount', nullable: true)
   int rowCount;
 
 
@@ -25,8 +25,17 @@ class ExportFileModel extends ModelBase {
 
   static ExportFileModel fromJsonObject(Object value) => ExportFileModel.fromJson(value);
 
-  factory ExportFileModel.fromJson(Map<String, dynamic> json) =>
-      _$ExportFileModelFromJson(json);
-  Map<String, dynamic> toJson() => _$ExportFileModelToJson(this);
+  factory ExportFileModel.fromJson(Map<String, dynamic> json) {
+      var rt = _$ExportFileModelFromJson(json);
+      rt.fileType = EnumMapper$EnumExportFileTypeConverter.fromJson(json['FileType']);
+      rt.recieveMethod = EnumMapper$EnumExportReceiveMethodConverter.fromJson(json['RecieveMethod']);
+      return rt;
+  }
+  Map<String, dynamic> toJson() {
+      var rt = _$ExportFileModelToJson(this);
+      rt['FileType'] = EnumMapper$EnumExportFileTypeConverter.toJson(fileType);
+      rt['RecieveMethod'] = EnumMapper$EnumExportReceiveMethodConverter.toJson(recieveMethod);
+      return rt;
+  }
 }
 
