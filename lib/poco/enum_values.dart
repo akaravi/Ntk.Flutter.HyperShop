@@ -1416,3 +1416,170 @@ class EnumMapper$ResultErrorTypeConverter {
 }
 
 
+enum EnumBuildStatusType{
+  BuildOrder,
+  BuildMSMQAdd,
+  BuildMSMQAddError,
+  BuildMSMQRead,
+  BuildMSMQRun,
+  BuildError,
+  BuildSuccessfully,
+  BuildUnsuccessfully,
+  BuildMSMQRunNowBuildTempPathCreate,
+  BuildMSMQRunNowFiledownloaded,
+  BuildMSMQRunNowGitPull,
+  BuildMSMQRunNowBuildStart,
+  BuildMSMQRunNowBuildEnd,
+  BuildMSMQRunNowFileCopy,
+  CopyAppReleaseToExportApplication,
+  BuildMSMQRunNowBuildDownloadFiles,
+  BuildGitError,
+  BuildUnsuccessfullyButFileNotExist,
+  BuildSuccessfullyAndCopyAppReleaseToExportApplicationfully
+}
+class EnumMapper$EnumBuildStatusTypeConverter {
+  static EnumBuildStatusType fromJson(Object sender){
+    if (sender==null) return EnumBuildStatusType.BuildSuccessfullyAndCopyAppReleaseToExportApplicationfully;
+    var sr=sender.toString().trim().toLowerCase();
+    if (sr=='buildorder' || sr=='1')
+      return EnumBuildStatusType.BuildOrder;
+    else if (sr=='buildmsmqadd' || sr=='2')
+      return EnumBuildStatusType.BuildMSMQAdd;
+    else if (sr=='buildmsmqadderror' || sr=='3')
+      return EnumBuildStatusType.BuildMSMQAddError;
+    else if (sr=='buildmsmqread' || sr=='4')
+      return EnumBuildStatusType.BuildMSMQRead;
+    else if (sr=='buildmsmqrun' || sr=='5')
+      return EnumBuildStatusType.BuildMSMQRun;
+    else if (sr=='builderror' || sr=='6')
+      return EnumBuildStatusType.BuildError;
+    else if (sr=='buildsuccessfully' || sr=='7')
+      return EnumBuildStatusType.BuildSuccessfully;
+    else if (sr=='buildunsuccessfully' || sr=='8')
+      return EnumBuildStatusType.BuildUnsuccessfully;
+    else if (sr=='buildmsmqrunnowbuildtemppathcreate' || sr=='9')
+      return EnumBuildStatusType.BuildMSMQRunNowBuildTempPathCreate;
+    else if (sr=='buildmsmqrunnowfiledownloaded' || sr=='10')
+      return EnumBuildStatusType.BuildMSMQRunNowFiledownloaded;
+    else if (sr=='buildmsmqrunnowgitpull' || sr=='11')
+      return EnumBuildStatusType.BuildMSMQRunNowGitPull;
+    else if (sr=='buildmsmqrunnowbuildstart' || sr=='12')
+      return EnumBuildStatusType.BuildMSMQRunNowBuildStart;
+    else if (sr=='buildmsmqrunnowbuildend' || sr=='12')
+      return EnumBuildStatusType.BuildMSMQRunNowBuildEnd;
+    else if (sr=='buildmsmqrunnowfilecopy' || sr=='13')
+      return EnumBuildStatusType.BuildMSMQRunNowFileCopy;
+    else if (sr=='copyappreleasetoexportapplication' || sr=='14')
+      return EnumBuildStatusType.CopyAppReleaseToExportApplication;
+    else if (sr=='buildmsmqrunnowbuilddownloadfiles' || sr=='15')
+      return EnumBuildStatusType.BuildMSMQRunNowBuildDownloadFiles;
+    else if (sr=='buildgiterror' || sr=='16')
+      return EnumBuildStatusType.BuildGitError;
+    else if (sr=='buildunsuccessfullybutfilenotexist' || sr=='17')
+      return EnumBuildStatusType.BuildUnsuccessfullyButFileNotExist;
+    else if (sr=='buildsuccessfullyandcopyappreleasetoexportapplicationfully' || sr=='20')
+      return EnumBuildStatusType.BuildSuccessfullyAndCopyAppReleaseToExportApplicationfully;
+  return EnumBuildStatusType.BuildSuccessfullyAndCopyAppReleaseToExportApplicationfully;
+  }
+
+  static int toJson(EnumBuildStatusType sender){
+    switch (sender) {
+      case EnumBuildStatusType.BuildOrder: return 1;
+      case EnumBuildStatusType.BuildMSMQAdd: return 2;
+      case EnumBuildStatusType.BuildMSMQAddError: return 3;
+      case EnumBuildStatusType.BuildMSMQRead: return 4;
+      case EnumBuildStatusType.BuildMSMQRun: return 5;
+      case EnumBuildStatusType.BuildError: return 6;
+      case EnumBuildStatusType.BuildSuccessfully: return 7;
+      case EnumBuildStatusType.BuildUnsuccessfully: return 8;
+      case EnumBuildStatusType.BuildMSMQRunNowBuildTempPathCreate: return 9;
+      case EnumBuildStatusType.BuildMSMQRunNowFiledownloaded: return 10;
+      case EnumBuildStatusType.BuildMSMQRunNowGitPull: return 11;
+      case EnumBuildStatusType.BuildMSMQRunNowBuildStart: return 12;
+      case EnumBuildStatusType.BuildMSMQRunNowBuildEnd: return 12;
+      case EnumBuildStatusType.BuildMSMQRunNowFileCopy: return 13;
+      case EnumBuildStatusType.CopyAppReleaseToExportApplication: return 14;
+      case EnumBuildStatusType.BuildMSMQRunNowBuildDownloadFiles: return 15;
+      case EnumBuildStatusType.BuildGitError: return 16;
+      case EnumBuildStatusType.BuildUnsuccessfullyButFileNotExist: return 17;
+      case EnumBuildStatusType.BuildSuccessfullyAndCopyAppReleaseToExportApplicationfully: return 20;
+      default: return 1;
+    }
+  }
+}
+
+
+enum RecordStatusEnum{
+  Available,
+  Deleted,
+  Pending,
+  Confirmed,
+  DeniedConfirmed,
+  AvailableArchive
+}
+class EnumMapper$RecordStatusEnumConverter {
+  static RecordStatusEnum fromJson(Object sender){
+    if (sender==null) return RecordStatusEnum.AvailableArchive;
+    var sr=sender.toString().trim().toLowerCase();
+    if (sr=='available' || sr=='1')
+      return RecordStatusEnum.Available;
+    else if (sr=='deleted' || sr=='2')
+      return RecordStatusEnum.Deleted;
+    else if (sr=='pending' || sr=='3')
+      return RecordStatusEnum.Pending;
+    else if (sr=='confirmed' || sr=='4')
+      return RecordStatusEnum.Confirmed;
+    else if (sr=='deniedconfirmed' || sr=='5')
+      return RecordStatusEnum.DeniedConfirmed;
+    else if (sr=='availablearchive' || sr=='6')
+      return RecordStatusEnum.AvailableArchive;
+  return RecordStatusEnum.AvailableArchive;
+  }
+
+  static int toJson(RecordStatusEnum sender){
+    switch (sender) {
+      case RecordStatusEnum.Available: return 1;
+      case RecordStatusEnum.Deleted: return 2;
+      case RecordStatusEnum.Pending: return 3;
+      case RecordStatusEnum.Confirmed: return 4;
+      case RecordStatusEnum.DeniedConfirmed: return 5;
+      case RecordStatusEnum.AvailableArchive: return 6;
+      default: return 1;
+    }
+  }
+}
+
+
+enum EnumImagePlace{
+  None,
+  MainImage,
+  ThumbnailImage,
+  Icon
+}
+class EnumMapper$EnumImagePlaceConverter {
+  static EnumImagePlace fromJson(Object sender){
+    if (sender==null) return EnumImagePlace.Icon;
+    var sr=sender.toString().trim().toLowerCase();
+    if (sr=='none' || sr=='0')
+      return EnumImagePlace.None;
+    else if (sr=='mainimage' || sr=='1')
+      return EnumImagePlace.MainImage;
+    else if (sr=='thumbnailimage' || sr=='2')
+      return EnumImagePlace.ThumbnailImage;
+    else if (sr=='icon' || sr=='3')
+      return EnumImagePlace.Icon;
+  return EnumImagePlace.Icon;
+  }
+
+  static int toJson(EnumImagePlace sender){
+    switch (sender) {
+      case EnumImagePlace.None: return 0;
+      case EnumImagePlace.MainImage: return 1;
+      case EnumImagePlace.ThumbnailImage: return 2;
+      case EnumImagePlace.Icon: return 3;
+      default: return 0;
+    }
+  }
+}
+
+
