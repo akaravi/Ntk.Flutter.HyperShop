@@ -6,7 +6,7 @@ import 'package:hypertools/apis/models/models/filterModel.dart';
 
 class HyperShopCategoryService extends ApiServerBase {
   HyperShopCategoryService() {
-    moduleCotrolerUrl = 'HyperShopCategory';
+    moduleCotrolerUrl = 'HyperShopCategory/';
   }
   Future<ErrorExceptionResult<HyperShopCategoryModel>>
       serviceGetAllMicroServiceAsync(FilterModel model) async {

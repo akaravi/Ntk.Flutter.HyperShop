@@ -7,7 +7,7 @@ import 'package:hypertools/apis/models/cmsModels/modelBase/errorExcptionResult.d
 
 class HyperShopContentService extends ApiServerBase {
   HyperShopContentService() {
-    moduleCotrolerUrl = 'HyperShopContent';
+    moduleCotrolerUrl = 'HyperShopContent/';
   }
   Future<ErrorExceptionResult<HyperShopContentModel>>
       serviceGetAllMicroServiceAsync(FilterModel model) async {

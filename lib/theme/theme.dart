@@ -4,10 +4,12 @@ import 'package:hypertools/poco/screen_config.dart';
 
 final String privacyTermUrl = 'http://ntk.ir/privacy';
 final String baseApiUrl = 'https://apicms.ir/api/v1/';
-final String acceptTermDescription = 'قبول کلیه شرایط و قوانین جمهوری اسلامی';
+final String acceptTermDescription =
+    'قبول کلیه شرایط و قوانین جمهوری اسلامی قبول کلیه شرایط و قوانین جمهوری اسلامی قبول کلیه شرایط و قوانین جمهوری اسلامی قبول کلیه شرایط و قوانین جمهوری اسلامی';
 final bool showAcceptTerm = true;
 final String tokenPackageName = 'ntk.android.hypershop.app67';
-final String lookupAddressForCheckInternetConnection = 'google.com';
+final String lookupAddressForCheckInternetConnection = '';
+final int currentAppVersion = 1;
 
 final double graphicDesignWidth = 1440;
 final double graphicDesignHeight = 2960;

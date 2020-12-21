@@ -4,6 +4,7 @@ import 'package:hypertools/poco/ErrorExceptionResultBase.dart';
 import 'package:hypertools/poco/screen_config.dart';
 import 'package:hypertools/theme/theme.dart';
 import 'package:hypertools/views/accept_terms.dart';
+import 'package:hypertools/views/update_program.dart';
 
 import 'home_page.dart';
 
@@ -13,6 +14,29 @@ class SplashScreen extends StatelessWidget {
 
   void checkData(BuildContext context, bool showAcceptTermsForm,
       ErrorExceptionResultBase result) {
+    if (result.uiResultType == ErrorExceptionResultType.hasUpdateForce) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => UpdateProgram(
+                  bloc: bloc,
+                  hasForceUpdate: true,
+                  showAcceptTermsForm: showAcceptTermsForm),
+              settings: RouteSettings(name: 'Update Program')));
+      return;
+    } else if (result.uiResultType == ErrorExceptionResultType.hasUpdate) {
+      if (bloc.updateAppBloc.showPopupUpdate) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => UpdateProgram(
+                    bloc: bloc,
+                    hasForceUpdate: false,
+                    showAcceptTermsForm: showAcceptTermsForm),
+                settings: RouteSettings(name: 'Update Program')));
+        return;
+      }
+    }
     if (showAcceptTermsForm) {
       Navigator.pushReplacement(
           context,

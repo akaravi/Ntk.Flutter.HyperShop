@@ -2,6 +2,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'package:hypertools/poco/enum_values.dart';
 
+enum ErrorExceptionResultType {
+  none,
+  notConnectedToInternet,
+  hasUpdate,
+  hasUpdateForce
+}
+
 class ErrorExceptionResultBase {
   ErrorExceptionResultBase(
       {this.status,
@@ -10,6 +17,7 @@ class ErrorExceptionResultBase {
       this.errorMessage,
       this.errorType,
       this.linkFile,
+      this.uiResultType,
       this.isSuccess,
       this.isConnectedToInternet});
 
@@ -38,12 +46,17 @@ class ErrorExceptionResultBase {
   bool isConnectedToInternet = true;
   // DataAccessModel access;
 
-  static ErrorExceptionResultBase fail(String error) {
-    return ErrorExceptionResultBase(isSuccess: false, errorMessage: error);
+  @JsonKey(ignore: true)
+  ErrorExceptionResultType uiResultType = ErrorExceptionResultType.none;
+
+  static ErrorExceptionResultBase fail(String error,
+      {ErrorExceptionResultType errCode}) {
+    return ErrorExceptionResultBase(
+        isSuccess: false, errorMessage: error, uiResultType: errCode);
   }
 
-  static ErrorExceptionResultBase success() {
-    return ErrorExceptionResultBase(isSuccess: true);
+  static ErrorExceptionResultBase success({ErrorExceptionResultType errCode}) {
+    return ErrorExceptionResultBase(isSuccess: true, uiResultType: errCode);
   }
 
   ErrorExceptionResultBase fromJson(Map<String, dynamic> json) =>

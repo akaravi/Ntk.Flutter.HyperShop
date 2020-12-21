@@ -14,6 +14,14 @@ class LocalDatabase {
     return preferences.getString(key);
   }
 
+  static Future<void> setInt(String key, int value) async {
+    await preferences.setInt(key, value);
+  }
+
+  static int getInt(String key) {
+    return preferences.getInt(key);
+  }
+
   static Future<void> setBool(String key, bool value) async {
     await preferences.setBool(key, value);
   }
@@ -27,4 +35,5 @@ class LocalDatabase {
   }
 
   static String termAndConditionSettedKey = 'termandconditionsetted';
+  static String appVersionKey = 'appversion';
 }

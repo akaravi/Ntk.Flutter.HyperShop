@@ -41,24 +41,26 @@ class AcceptTerms extends StatelessWidget {
   Widget logoImage(BuildContext context) {
     return Container(
         width: ScreenConfig.hBlocks * 100,
-        height: ScreenConfig.vBlocks * 50,
+        height: ScreenConfig.vBlocks * 55,
         margin: EdgeInsets.only(
             top: topBasePaddingValue, bottom: topBasePaddingValue),
         child: Stack(children: <Widget>[
-          Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  acceptTermDescription,
-                  style: textStyleMedium(color: colorBABABA, size: 12),
-                  softWrap: true,
-                ),
-              )),
           Image.asset(
             'assets/images/splash_image.png',
             fit: BoxFit.cover,
           ),
+          Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    color: color000F25,
+                    child: Text(
+                      acceptTermDescription,
+                      style: textStyleMedium(color: colorBABABA, size: 12),
+                      softWrap: true,
+                    ),
+                  ))),
         ]));
   }
 

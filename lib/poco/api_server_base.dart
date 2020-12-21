@@ -179,15 +179,23 @@ class ApiServerBase extends Object {
   Future<bool> isConnectedToInternet(
       {StreamHelper<String> streamNotConnected}) async {
     streamNotConnected?.changeValue('');
+    print('pinging :' + lookupAddressForCheckInternetConnection);
     try {
+      if (lookupAddressForCheckInternetConnection == null ||
+          lookupAddressForCheckInternetConnection.isEmpty) {
+        print('ping cancel');
+        return true;
+      }
       final result =
           await InternetAddress.lookup(lookupAddressForCheckInternetConnection);
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('ping ok');
         return true;
       }
     } on SocketException catch (_) {
       print('not connected to the internet');
     }
+    print('ping completed');
     streamNotConnected
         ?.changeValue('لطفاَ اتصال به اینترنت را مجددا بررسی کنید');
     return false;

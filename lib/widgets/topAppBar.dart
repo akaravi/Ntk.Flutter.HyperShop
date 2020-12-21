@@ -87,9 +87,9 @@ class TopAppBar extends StatelessWidget {
             width: 38,
             height: 38,
             child: Icon(
-              Icons.home,
+              FontAwesomeIcons.bars,
               color: color808080,
-              size: 24,
+              size: 18,
             ),
           )),
     );

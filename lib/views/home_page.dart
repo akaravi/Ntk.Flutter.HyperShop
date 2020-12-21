@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         activeColorAlternate: colorFFFFFF,
       ),
       PersistentBottomNavBarItem(
-        icon: getIcon(FontAwesomeIcons.shoppingBasket, false),
+        icon: basketIcon(),
         title: 'سبد خرید',
         activeColor: colorF29421,
         inactiveColor: colorBABABA,
@@ -168,12 +168,43 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ];
   }
 
-  Icon getIcon(IconData icon, bool isActive) {
+  Widget basketIcon() {
+    return StreamBuilder(
+      stream: widget.bloc.orderBloc.hasOrder.stream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        var data = false;
+        if (snapshot.hasData) data = snapshot.data;
+        if (data)
+          return Stack(
+            overflow: Overflow.visible,
+            fit: StackFit.loose,
+            children: [
+              Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    child: getIcon(FontAwesomeIcons.shoppingBasket, false),
+                  )),
+              Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 14, top: 3),
+                      child: getIcon(FontAwesomeIcons.solidCircle, false,
+                          color: colorFF0000, size: 14)))
+            ],
+          );
+        return getIcon(FontAwesomeIcons.shoppingBasket, false);
+      },
+    );
+  }
+
+  Icon getIcon(IconData icon, bool isActive, {double size, Color color}) {
+    if (size == null) size = 16;
+    if (color == null) color = color808080;
     if (!isActive)
       return Icon(
         icon,
-        size: 16,
-        color: color808080,
+        size: size,
+        color: color,
       );
 
     return Icon(

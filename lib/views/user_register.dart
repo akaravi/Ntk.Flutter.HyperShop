@@ -11,7 +11,11 @@ import 'package:hypertools/widgets/captcha_viewer.dart';
 
 class UserRegister extends StatefulWidget {
   final MainUserBloc bloc;
-  UserRegister({Key key, this.bloc}) : super(key: key);
+  final bool openFromDrawer;
+  final bool openFromOrder;
+  UserRegister(
+      {Key key, this.bloc, this.openFromDrawer = false, this.openFromOrder})
+      : super(key: key);
 
   @override
   _UserRegisterState createState() => _UserRegisterState();
@@ -380,6 +384,10 @@ class _UserRegisterState extends State<UserRegister>
           ),
           GestureDetector(
             onTap: () {
+              if (widget.openFromDrawer || widget.openFromOrder) {
+                Navigator.of(ctx).pop();
+                return;
+              }
               Navigator.pushReplacement(
                   ctx,
                   MaterialPageRoute(
@@ -394,7 +402,9 @@ class _UserRegisterState extends State<UserRegister>
                       border: Border.all(color: blue[50], width: 0.6),
                       borderRadius: BorderRadius.circular(15)),
                   child: Text(
-                    'صرف نظر از وارد کردن شماره موبایل',
+                    ((widget.openFromDrawer || widget.openFromOrder)
+                        ? ' بازگشت    '
+                        : 'صرف نظر از وارد کردن شماره موبایل'),
                     textAlign: TextAlign.center,
                     style: textStyleBold(size: 14, color: white),
                   )),
