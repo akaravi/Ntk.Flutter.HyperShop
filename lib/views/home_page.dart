@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hypertools/bloc/main_user_bloc.dart';
 import 'package:hypertools/poco/screen_config.dart';
 import 'package:hypertools/theme/theme.dart';
+import 'package:hypertools/views/products.dart';
 import 'package:hypertools/widgets/appDrawerMenu.dart';
 import 'package:hypertools/widgets/topAppBar.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -76,7 +77,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return PersistentTabView(context,
         controller: navbarTabController,
         screens: [
-          getScreen(context, Container()),
+          // ProductPage(bloc: widget.bloc),
+          getScreen(context, ProductPage(bloc: widget.bloc)),
           getScreen(context, Container()),
           getScreen(context, Container()),
           getScreen(context, Container()),
@@ -116,7 +118,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget getScreen(BuildContext ctx, Widget child) {
     return Container(
       color: color000F25,
-      child: Stack(children: [logoImage(), child]),
+      padding: EdgeInsets.only(bottom: 57),
+      child: Container(
+          padding: EdgeInsets.only(top: 10, bottom: 10),
+          decoration: BoxDecoration(
+            color: colorFFFFFF,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: child),
     );
   }
 

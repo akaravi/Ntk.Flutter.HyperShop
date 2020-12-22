@@ -31,7 +31,8 @@ dependencies:
   platform_device_id: ^0.1.3
   # https://pub.dev/packages/ota_update/example
   ota_update: ^2.4.1
-
+  cached_network_image: ^2.5.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

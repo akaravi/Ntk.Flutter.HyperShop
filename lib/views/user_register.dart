@@ -204,7 +204,7 @@ class _UserRegisterState extends State<UserRegister>
               isEnabledStream: widget.bloc.loginButtonIsEnabled.stream,
               onTap: () async {
                 FocusScope.of(context).unfocus();
-                await widget.bloc.createMember();
+                await widget.bloc.createMemberUser();
               },
               progrss: CircularProgressIndicator(),
               normalOpacity: 1,

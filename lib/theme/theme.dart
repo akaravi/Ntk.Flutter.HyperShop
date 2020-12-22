@@ -151,7 +151,7 @@ MaterialColor colorSplashBackground = MaterialColor(0xFF000f25, <int, Color>{
 });
 MaterialColor colorListBackground = MaterialColor(0xFFcfdae8, <int, Color>{
   50: Color(0xFFe4e9ef),
-  50: Color(0xFFa3b2c5),
+  100: Color(0xFFa3b2c5),
 });
 
 MaterialColor colorBlueMiddle = MaterialColor(0xFF0057c1, <int, Color>{
@@ -210,10 +210,10 @@ TextStyle textStyleRegular({Color color, double size}) {
   if (color == null) color = colorBABABA;
   if (size == null) size = 12;
   return (TextStyle(
-    fontFamily: 'vazirMedium',
+    fontFamily: 'vazir',
     fontSize: size,
     color: color,
-    fontWeight: FontWeight.w300,
+    // fontWeight: FontWeight.w300,
   ));
 }
 

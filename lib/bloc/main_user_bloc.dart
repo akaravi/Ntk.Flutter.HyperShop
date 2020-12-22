@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:hypertools/apis/models/cmsModels/coreTokenModels/authUserSignInBySmsDtoModel.dart';
+import 'package:hypertools/apis/models/cmsModels/coreTokenModels/authUserSignUpModel.dart';
 import 'package:hypertools/apis/models/cmsModels/coreTokenModels/dateModel.dart';
 import 'package:hypertools/apis/serverApis/cmsService/application/applicationAppService.dart';
 import 'package:hypertools/apis/serverApis/cmsService/coreToken/authService.dart';
@@ -15,6 +17,7 @@ import 'package:hypertools/poco/enum_values.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:hypertools/theme/theme.dart';
 
+import 'category_controller_bloc.dart';
 import 'order_bloc.dart';
 
 class MainUserBloc extends Object {
@@ -48,8 +51,33 @@ class MainUserBloc extends Object {
   bool userHasLogined = false;
 
   Timer prevTimer;
-  Future<bool> createMember() async {
+  Future<bool> createMemberUser() async {
     resendSmsButtonIsEnabled.changeValue(false);
+
+    var service = AuthService();
+    service.setAuthorizationToken('', deviceToken: deviceTokenData);
+    var signUp = await service.serviceSignupUserAsync(AuthUserSignUpModel(
+        captchaKey: captchaBloc.model.key,
+        captchaText: captchaBloc.captchaUserValue.lastValue,
+        mobile: username.lastValue,
+        password: await PlatformDeviceId.getDeviceId));
+    if (signUp.isSuccess) {
+      print(signUp.item.toJson());
+    }
+    // else
+    print(signUp.errorMessage);
+    var rt = await service.serviceSigninUserBySmsAsync(
+        AuthUserSignInBySmsDtoModel(
+            captchaKey: captchaBloc.model.key,
+            captchaText: captchaBloc.captchaUserValue.lastValue,
+            isRemember: true,
+            mobile: username.lastValue,
+            code: await PlatformDeviceId.getDeviceId));
+    if (rt.isSuccess) {
+      print(rt.item.toJson());
+    } else
+      print(rt.errorMessage);
+
     if (prevTimer != null) prevTimer.cancel();
     createMemberCountDown.changeValue(120);
     userRegisterTabIndex.changeValue(1);
@@ -66,11 +94,13 @@ class MainUserBloc extends Object {
   CaptchaViewerBloc captchaBloc;
   UpdateAppBloc updateAppBloc;
   OrderBloc orderBloc;
+  CategoryControllerBloc categoryControllerBloc;
   void initBloc() {
     captchaBloc =
         CaptchaViewerBloc(this, streamNotConnected: notConnectedToInternet);
     updateAppBloc = UpdateAppBloc(this);
     orderBloc = OrderBloc(this);
+    categoryControllerBloc = CategoryControllerBloc(this);
     loginButtonIsEnabled
         .combine(username.stream, captchaBloc.captchaUserValue.stream, (a, b) {
       if (a == null || b == null) return false;
