@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hypertools/apis/models/cmsModels/hyperShop/hyperShopCategoryModel.dart';
 import 'package:hypertools/bloc/main_user_bloc.dart';
 import 'package:hypertools/poco/errorExceptionResult.dart';
 import 'package:hypertools/theme/theme.dart';
 import 'package:hypertools/widgets/product_category_viewer.dart';
+import 'package:hypertools/widgets/product_viewer_in_list.dart';
 
 class ProductPage extends StatefulWidget {
   final MainUserBloc bloc;
@@ -13,11 +16,22 @@ class ProductPage extends StatefulWidget {
   _ProductPageState createState() => _ProductPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class _ProductPageState extends State<ProductPage>
+    with TickerProviderStateMixin {
   final ScrollController listViewController = ScrollController();
-
+  TabController tabController;
+  StreamSubscription<int> productTabItemListener;
   @override
   void initState() {
+    tabController = TabController(
+      length: 2,
+      vsync: this,
+    );
+    productTabItemListener = widget
+        .bloc.categoryControllerBloc.productTabItem.stream
+        .listen((event) {
+      tabController.index = event;
+    });
     widget.bloc.categoryControllerBloc
         .getProductCategories()
         .then((value) => {});
@@ -25,11 +39,38 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   @override
+  void dispose() {
+    productTabItemListener?.cancel();
+    tabController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      color: colorFFFFFF,
-      // padding: EdgeInsets.only(left: 10, right: 10),
-      child: busyIndicator(context),
+        color: colorFFFFFF,
+        // padding: EdgeInsets.only(left: 10, right: 10),
+        child: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: tabController,
+          children: [
+            busyIndicator(context),
+            showProductForOrder(context),
+          ],
+        ));
+  }
+
+  Widget showProductForOrder(BuildContext ct) {
+    return StreamBuilder(
+      stream: widget.bloc.categoryControllerBloc.selectedProduct.stream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (!snapshot.hasData || snapshot.data == null) return Text('');
+        return ProductViewerInList(
+          bloc: widget.bloc,
+          isInPreview: false,
+          model: snapshot.data,
+        );
+      },
     );
   }
 
@@ -85,18 +126,26 @@ class _ProductPageState extends State<ProductPage> {
           controller: listViewController,
           padding: EdgeInsets.only(bottom: 100),
           scrollDirection: Axis.vertical,
-          children: lst.map((value) {
-            return ProductCategoryViewer(
-              bloc: widget.bloc,
-              categoryBloc: widget.bloc.categoryControllerBloc.getBloc(value),
-              isInPreview: true,
-              model: value,
-              onExpandClick: (data) {},
-            );
-          }).toList(),
+          children: getListViewChildren(lst, context),
         );
       },
     );
+  }
+
+  List<Widget> getListViewChildren(
+      List<HyperShopCategoryModel> lst, BuildContext ctx) {
+    List<Widget> ret = new List<Widget>();
+    var wList = lst.map((value) {
+      return ProductCategoryViewer(
+        bloc: widget.bloc,
+        categoryBloc: widget.bloc.categoryControllerBloc.getBloc(value),
+        isInPreview: true,
+        model: value,
+        onExpandClick: (data) {},
+      );
+    }).toList();
+    for (var r in wList) ret.add(r);
+    return ret;
   }
 
   Widget listIsEmpty(

@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       color: color000F25,
       padding: EdgeInsets.only(bottom: 57),
       child: Container(
-          padding: EdgeInsets.only(top: 10, bottom: 10),
+          // padding: EdgeInsets.only(top: 10, bottom: 10),
           decoration: BoxDecoration(
             color: colorFFFFFF,
             borderRadius: BorderRadius.circular(5),
@@ -225,6 +225,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   bool tab2Exit = false;
   Future<bool> _requestPop() {
+    if (widget.bloc.categoryControllerBloc.productTabItem.lastValue != null &&
+        widget.bloc.categoryControllerBloc.productTabItem.lastValue > 0) {
+      widget.bloc.categoryControllerBloc.productTabItem.changeValue(0);
+      return new Future.value(false);
+    }
     if (widget.bloc.openAppDrawer.lastValue != null &&
         widget.bloc.openAppDrawer.lastValue) {
       widget.bloc.openAppDrawer.changeValue(false);

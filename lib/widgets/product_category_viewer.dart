@@ -50,24 +50,41 @@ class _ProductCategoryViewerState extends State<ProductCategoryViewer> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.model.name,
-                      style: textStyleBold(color: color1C1C1C, size: 13)),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.thList,
+                        size: 16,
+                        color: color257EEA,
+                      ),
+                      Padding(padding: EdgeInsets.only(left: 5)),
+                      Text(widget.model.name,
+                          style: textStyleBold(color: color257EEA, size: 14)),
+                    ],
+                  ),
                   GestureDetector(
-                    onTap: () {
-                      if (widget.onExpandClick != null)
-                        widget.onExpandClick(widget.model);
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.chevronLeft,
-                      size: 16,
-                      color: color1C1C1C,
-                    ),
-                  )
+                      onTap: () {
+                        if (widget.onExpandClick != null)
+                          widget.onExpandClick(widget.model);
+                      },
+                      child: Row(
+                        children: [
+                          Text('موارد بیشتر  ',
+                              style:
+                                  textStyleBold(color: color257EEA, size: 9)),
+                          Icon(
+                            FontAwesomeIcons.arrowCircleLeft,
+                            size: 16,
+                            color: color257EEA,
+                          ),
+                        ],
+                      ))
                 ],
               )),
           Container(
             height: 0.6,
-            color: colorBABABA,
+            color: color257EEA,
           ),
           if (widget.isInPreview)
             Container(color: colorFFFFFF, child: previewItems(context)),
@@ -98,24 +115,30 @@ class _ProductCategoryViewerState extends State<ProductCategoryViewer> {
         List<HyperShopContentModel> lst = List<HyperShopContentModel>();
         if (snapshot.hasData && snapshot.data.length > 0) lst = snapshot.data;
         if (lst.length == 0) return createProductShow(ctx, null, true);
-        lst.add(HyperShopContentModel(isShowMoreObject: true));
-        return Container(
-            width: ScreenConfig.vBlocks * 30,
-            height: ScreenConfig.vBlocks * 48,
-            child: ListView(
-              controller: listViewHorizontalController,
-              padding: EdgeInsets.only(right: 100),
-              scrollDirection: Axis.horizontal,
-              children: lst.map((value) {
-                return createProductShow(ctx, value, true);
-              }).toList(),
-            ));
+        return Column(children: [
+          Container(
+              width: ScreenConfig.vBlocks * 100,
+              height: ScreenConfig.vBlocks * 43,
+              child: ListView(
+                controller: listViewHorizontalController,
+                padding: EdgeInsets.only(left: 100),
+                scrollDirection: Axis.horizontal,
+                children: lst.map((value) {
+                  return createProductShow(ctx, value, true);
+                }).toList(),
+              )),
+          Container(
+            height: 0.4,
+            color: color257EEA,
+          ),
+        ]);
       },
     );
   }
 
   Widget getProgressBar() {
     return Container(
+        color: colorFFFFFF,
         width: ScreenConfig.vBlocks * 30,
         height: ScreenConfig.vBlocks * 48,
         child: Center(
@@ -124,7 +147,7 @@ class _ProductCategoryViewerState extends State<ProductCategoryViewer> {
             height: 18,
             child: CircularProgressIndicator(
               backgroundColor: colorFFFFFF,
-              valueColor: new AlwaysStoppedAnimation<Color>(gray),
+              valueColor: new AlwaysStoppedAnimation<Color>(gray[200]),
             ),
           ),
         ));
@@ -133,34 +156,42 @@ class _ProductCategoryViewerState extends State<ProductCategoryViewer> {
   Widget createProductShow(
       BuildContext ctx, HyperShopContentModel model, bool isPreview) {
     if (model == null)
-      return Container(
-          width: ScreenConfig.vBlocks * 30,
-          height: ScreenConfig.vBlocks * 48,
+      return Padding(
           padding: EdgeInsets.all(10),
-          child: Center(
-              child: Text(
-            'موردی جهت نمایش وجود ندارد',
-            style: textStyleRegular(color: colorBABABA, size: 12),
-            softWrap: true,
-          )));
-    if (model.isShowMoreObject)
-      return Container(
-          width: ScreenConfig.vBlocks * 30,
-          height: ScreenConfig.vBlocks * 48,
-          padding: EdgeInsets.all(10),
-          child: Center(
-              child: GestureDetector(
-                  onTap: () {},
+          child: Container(
+              color: colorFFFFFF,
+              width: ScreenConfig.vBlocks * 26,
+              height: ScreenConfig.vBlocks * 44,
+              padding: EdgeInsets.all(10),
+              child: Center(
                   child: Text(
-                    'مشاهده موارد بیشتر',
-                    style: textStyleBold(color: colorBABABA, size: 12),
-                    softWrap: true,
-                  ))));
-    return ProductViewerInList(
-      bloc: widget.bloc,
-      isInPreview: isPreview,
-      model: model,
-    );
+                'موردی جهت نمایش وجود ندارد',
+                style: textStyleRegular(color: colorBABABA, size: 12),
+                softWrap: true,
+              ))));
+    if (model.isShowMoreObject)
+      return Padding(
+          padding: EdgeInsets.all(10),
+          child: Container(
+              color: colorFFFFFF,
+              width: ScreenConfig.vBlocks * 26,
+              height: ScreenConfig.vBlocks * 44,
+              padding: EdgeInsets.all(10),
+              child: Center(
+                  child: GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'مشاهده موارد بیشتر',
+                        style: textStyleBold(color: colorBABABA, size: 12),
+                        softWrap: true,
+                      )))));
+    return Padding(
+        padding: EdgeInsets.all(10),
+        child: ProductViewerInList(
+          bloc: widget.bloc,
+          isInPreview: isPreview,
+          model: model,
+        ));
   }
 
   Widget fullItems(BuildContext ctx) {}

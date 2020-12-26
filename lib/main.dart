@@ -26,9 +26,7 @@ class MyApp extends StatelessWidget {
       ],
       locale: Locale("fa", "IR"),
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Vazir'),
       home: SplashScreen(bloc: BlocProviderChild.bloc),
       debugShowCheckedModeBanner: false,
     ));

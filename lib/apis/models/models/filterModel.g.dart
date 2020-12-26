@@ -28,7 +28,11 @@ Map<String, dynamic> _$FilterModelToJson(FilterModel instance) =>
     <String, dynamic>{
       'Includes': instance.includes,
       'IncludesOtherModule': instance.includesOtherModule,
-      'Filters': instance.filters,
+      'Filters': instance.filters == null
+          ? null
+          : instance.filters
+              .map((e) => e == null ? null : e.toJson())
+              ?.toList(),
       'Count': instance.count,
       'TotalRowData': instance.totalRowData,
       'SkipRowData': instance.skipRowData,

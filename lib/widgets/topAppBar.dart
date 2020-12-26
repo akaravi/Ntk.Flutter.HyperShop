@@ -87,7 +87,7 @@ class TopAppBar extends StatelessWidget {
             width: 38,
             height: 38,
             child: Icon(
-              FontAwesomeIcons.bars,
+              FontAwesomeIcons.listUl,
               color: color808080,
               size: 18,
             ),
@@ -101,8 +101,8 @@ class TopAppBar extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         var rightLogoPadding = block * 100;
         rightLogoPadding > 500
-            ? rightLogoPadding = block * 70
-            : rightLogoPadding = block * 40;
+            ? rightLogoPadding = block * 75
+            : rightLogoPadding = block * 45;
         int data = 0;
         Widget child;
         if (snapshot.hasData) data = snapshot.data;

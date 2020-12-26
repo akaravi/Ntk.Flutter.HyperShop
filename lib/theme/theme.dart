@@ -169,7 +169,8 @@ MaterialColor gray = MaterialColor(0xFFdbdbdb, <int, Color>{
   50: Color(0xFFdbdbdb),
   100: Color(0xFFe9e9e9),
   200: Color(0xFF898989),
-  300: Color(0xFFcbcbcb)
+  300: Color(0xFFcbcbcb),
+  400: Color(0xFFefeff0)
 });
 
 MaterialColor red = MaterialColor(0xFFdbdbdb, <int, Color>{
@@ -210,10 +211,10 @@ TextStyle textStyleRegular({Color color, double size}) {
   if (color == null) color = colorBABABA;
   if (size == null) size = 12;
   return (TextStyle(
-    fontFamily: 'vazir',
+    fontFamily: 'Vazir',
     fontSize: size,
     color: color,
-    // fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w300,
   ));
 }
 
@@ -221,10 +222,10 @@ TextStyle textStyleMedium({Color color, double size}) {
   if (color == null) color = colorBABABA;
   if (size == null) size = 12;
   return (TextStyle(
-    fontFamily: 'vazirMedium',
+    fontFamily: 'Vazir',
     fontSize: size,
     color: color,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
   ));
 }
 
@@ -232,9 +233,23 @@ TextStyle textStyleBold({Color color, double size}) {
   if (color == null) color = colorBABABA;
   if (size == null) size = 12;
   return (TextStyle(
-    fontFamily: 'vazirBold',
+    fontFamily: 'Vazir',
     fontSize: size,
     color: color,
+    fontWeight: FontWeight.w900,
+  ));
+}
+
+TextStyle textStyleBoldWithOverLine({Color color, double size}) {
+  if (color == null) color = colorBABABA;
+  if (size == null) size = 12;
+  return (TextStyle(
+    fontFamily: 'Vazir',
+    fontSize: size,
+    color: color,
+    decoration: TextDecoration.lineThrough,
+    decorationColor: color1C1C1C,
+    decorationStyle: TextDecorationStyle.double,
     fontWeight: FontWeight.w900,
   ));
 }
@@ -243,10 +258,10 @@ TextStyle textStyleNumberRegular({Color color, double size}) {
   if (color == null) color = colorBABABA;
   if (size == null) size = 12;
   return (TextStyle(
-    fontFamily: 'vazirfd',
+    fontFamily: 'Vazirfd',
     fontSize: size,
     color: color,
-    fontWeight: FontWeight.w100,
+    fontWeight: FontWeight.w300,
   ));
 }
 
@@ -254,7 +269,7 @@ TextStyle textStyleNumberMedium({Color color, double size}) {
   if (color == null) color = colorBABABA;
   if (size == null) size = 12;
   return (TextStyle(
-    fontFamily: 'vazirfd',
+    fontFamily: 'Vazirfd',
     fontSize: size,
     color: color,
     fontWeight: FontWeight.w500,
@@ -265,10 +280,10 @@ TextStyle textStyleNumberBold({Color color, double size}) {
   if (color == null) color = colorBABABA;
   if (size == null) size = 12;
   return (TextStyle(
-    fontFamily: 'vazirfd',
+    fontFamily: 'Vazirfd',
     fontSize: size,
     color: color,
-    fontWeight: FontWeight.w700,
+    // fontWeight: FontWeight.w900,
   ));
 }
 

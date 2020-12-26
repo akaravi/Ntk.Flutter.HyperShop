@@ -32,6 +32,8 @@ dependencies:
   # https://pub.dev/packages/ota_update/example
   ota_update: ^2.4.1
   cached_network_image: ^2.5.0
+  flutter_rating_bar: ^3.2.0+1
+  persian_number_utility: ^0.2.6
   
 dev_dependencies:
   flutter_test:
@@ -57,23 +59,17 @@ flutter_native_splash:
 
   
 fonts:
-    - family: vazir
+    - family: Vazir
       fonts:
         - asset: assets/font/Vazir.ttf
-    - family: vazirBold
-      fonts:
         - asset: assets/font/Vazir-Bold.ttf
-      
-    - family: vazirMedium
-      fonts:
         - asset: assets/font/Vazir-Medium.ttf
-    - family: vazirLight
-      fonts:
         - asset: assets/font/Vazir-Light.ttf
-    - family: vazirfd
+        - asset: assets/font/Vazir-Thin.ttf
+    - family: Vazirfd
       fonts:
-        - asset: assets/font/Vazir-FD-WOL.ttf
         - asset: assets/font/Vazir-Bold-FD-WOL.ttf
-        - asset: assets/font/Vazir-Medium-FD-WOL.ttf
-        - asset: assets/font/Vazir-Light-FD-WOL.ttf
-        - asset: assets/font/Vazir-Thin-FD-WOL.ttf
+        # - asset: assets/font/Vazir-FD-WOL.ttf
+        # - asset: assets/font/Vazir-Medium-FD-WOL.ttf
+        # - asset: assets/font/Vazir-Light-FD-WOL.ttf
+        # - asset: assets/font/Vazir-Thin-FD-WOL.ttf

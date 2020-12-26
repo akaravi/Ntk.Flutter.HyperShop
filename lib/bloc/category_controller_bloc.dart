@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hypertools/apis/models/cmsModels/hyperShop/hyperShopCategoryModel.dart';
+import 'package:hypertools/apis/models/cmsModels/hyperShop/hyperShopContentModel.dart';
 import 'package:hypertools/apis/models/models/filterModel.dart';
 import 'package:hypertools/apis/serverApis/cmsService/hyperShop/hyperShopCategoryService.dart';
 import 'package:hypertools/poco/errorExceptionResult.dart';
@@ -15,11 +16,17 @@ class CategoryControllerBloc extends Object {
   StreamHelper<bool> busyIndicatorIsBusy = StreamHelper<bool>(initValue: false);
   StreamHelper<ErrorExceptionResult<HyperShopCategoryModel>> categoryList =
       StreamHelper<ErrorExceptionResult<HyperShopCategoryModel>>();
-
+  StreamHelper<int> productTabItem = StreamHelper<int>(initValue: 0);
+  StreamHelper<HyperShopContentModel> selectedProduct =
+      StreamHelper<HyperShopContentModel>();
   ObserverList<CategoryItemBloc> innerBlocs = ObserverList<CategoryItemBloc>();
 
   Future<ErrorExceptionResult<HyperShopCategoryModel>>
       getProductCategories() async {
+    if (categoryList.lastValue != null &&
+        categoryList.lastValue.listItems != null &&
+        categoryList.lastValue.listItems.length > 0)
+      return categoryList.lastValue;
     busyIndicatorIsBusy.changeValue(true);
     var service = new HyperShopCategoryService();
     service.setAuthorizationToken('',
@@ -64,5 +71,10 @@ class CategoryControllerBloc extends Object {
       innerBlocs.add(bloc);
     }
     return bloc;
+  }
+
+  void selectProduct(HyperShopContentModel model) {
+    selectedProduct.changeValue(model);
+    productTabItem.changeValue(1);
   }
 }

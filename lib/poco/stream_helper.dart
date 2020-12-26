@@ -35,16 +35,16 @@ class StreamHelper<T> {
   StreamTransformer<T, T> streamValidator;
   Function(String) get changeError => _stream.sink.addError;
 
-  Object lastAValue;
-  Object lastBValue;
+  Object _lastAValue;
+  Object _lastBValue;
   void combine(Stream a, Stream b, T Function(Object, Object) func) {
     a.listen((aVal) {
-      lastAValue = aVal;
-      this.changeValue(func(lastAValue, lastBValue));
+      _lastAValue = aVal;
+      this.changeValue(func(_lastAValue, _lastBValue));
     });
     b.listen((bVal) {
-      lastBValue = bVal;
-      this.changeValue(func(lastAValue, lastBValue));
+      _lastBValue = bVal;
+      this.changeValue(func(_lastAValue, _lastBValue));
     });
   }
 

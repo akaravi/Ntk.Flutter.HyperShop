@@ -32,17 +32,20 @@ class CategoryItemBloc extends Object {
     var service = new HyperShopContentService();
     service.setAuthorizationToken('',
         deviceToken: MainUserBloc.deviceTokenData);
-    var rt = await service.serviceGetAllMicroServiceAsync(FilterModel(
+    var filter = FilterModel(
         count: true,
         currentPageNumber: 0,
         rowPerPage: 10,
         filters: [
           FilterDataModel(
-              propertyName: 'Category',
+              propertyName: 'CategoryCode',
+              value: model.code,
               stringValue1: model.code,
               clauseType: ClauseType.And,
               searchType: FilterDataModelSearchTypes.Equal)
-        ]));
+        ]);
+    print(filter.toJson());
+    var rt = await service.serviceGetAllMicroServiceAsync(filter);
     if (rt.isSuccess) {
       print('isSuccess ' + rt.listItems.length.toString());
       previewList.changeValue(rt.listItems);
