@@ -34,6 +34,65 @@ class LocalDatabase {
     return preferences.containsKey(key);
   }
 
+  static List<String> getStringList(String key) {
+    return preferences.getStringList(key);
+  }
+
+  static bool containsStringList(String key, String item) {
+    var rt = preferences.getStringList(key);
+    for (var r in rt) if (r == item) return true;
+    return false;
+  }
+
+  static Future<void> addToStringList(String key, String item) async {
+    if (containsKey(key)) {
+      var rt = getStringList(key);
+      for (var r in rt) if (r == item) return;
+      rt.add(item);
+      await setStringList(key, rt);
+      return;
+    }
+    var rt = List<String>();
+    rt.add(item);
+    await setStringList(key, rt);
+  }
+
+  static Future<void> editStringList(
+      String key, String newItem, String prevItem) async {
+    if (containsKey(key)) {
+      var rt = getStringList(key);
+      for (var r in rt) {
+        if (r == prevItem) {
+          rt.remove(r);
+          break;
+        }
+      }
+      await addToStringList(key, newItem);
+      return;
+    }
+    var rt = List<String>();
+    rt.add(newItem);
+    await setStringList(key, rt);
+  }
+
+  static Future<void> deleteStringList(String key, String item) async {
+    if (containsKey(key)) {
+      var rt = getStringList(key);
+      for (var r in rt) {
+        if (r == item) {
+          rt.remove(r);
+          break;
+        }
+      }
+      await setStringList(key, rt);
+    }
+  }
+
+  static Future<void> setStringList(String key, List<String> items) async {
+    await preferences.setStringList(key, items);
+  }
+
   static String termAndConditionSettedKey = 'termandconditionsetted';
   static String appVersionKey = 'appversion';
+  static String productFavorite = 'productfavorite';
 }

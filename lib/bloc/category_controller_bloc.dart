@@ -74,7 +74,10 @@ class CategoryControllerBloc extends Object {
   }
 
   void selectProduct(HyperShopContentModel model) {
-    selectedProduct.changeValue(model);
+    selectedProduct.changeValue(null);
     productTabItem.changeValue(1);
+    Future.delayed(Duration(milliseconds: 500), () {
+      selectedProduct.changeValue(model);
+    });
   }
 }

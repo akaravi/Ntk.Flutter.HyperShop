@@ -4,8 +4,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hypertools/apis/models/cmsModels/hyperShop/hyperShopContentModel.dart';
 import 'package:hypertools/bloc/main_user_bloc.dart';
+import 'package:hypertools/poco/database_local.dart';
 import 'package:hypertools/poco/screen_config.dart';
 import 'package:hypertools/theme/theme.dart';
+import 'package:hypertools/widgets/like_dislike.dart';
 import 'package:hypertools/widgets/numerci_up_down.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -40,52 +42,67 @@ class ProductViewerInList extends StatelessWidget {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(mainAxisSize: MainAxisSize.min, children: [
-                                if (model.image == null || model.image.isEmpty)
-                                  Center(
-                                      child: Container(
-                                          width: imageWidth,
-                                          height: imageHeight,
-                                          padding: EdgeInsets.all(5),
-                                          child: Image.asset(
-                                            'assets/images/special.png',
-                                            fit: BoxFit.cover,
-                                          ))),
-                                if (model.image != null ||
-                                    model.image.isNotEmpty)
-                                  Center(
-                                      child: Container(
-                                          width: imageWidth,
-                                          height: imageHeight,
-                                          padding: EdgeInsets.all(5),
-                                          child: CachedNetworkImage(
-                                              imageUrl: model.image,
-                                              progressIndicatorBuilder: (context,
-                                                      url, downloadProgress) =>
-                                                  Center(
-                                                      child: SizedBox(
-                                                          width: 20,
-                                                          height: 20,
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                            value:
-                                                                downloadProgress
-                                                                    .progress,
-                                                            backgroundColor:
-                                                                colorFFFFFF,
-                                                            valueColor:
-                                                                new AlwaysStoppedAnimation<
-                                                                        Color>(
-                                                                    gray[200]),
-                                                          ))),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Image.asset(
-                                                        'assets/images/special.png',
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                              fit: BoxFit.contain))),
-                              ]),
+                              Stack(
+                                children: [
+                                  if (model.image == null ||
+                                      model.image.isEmpty)
+                                    Center(
+                                        child: Container(
+                                            width: imageWidth,
+                                            height: imageHeight,
+                                            padding: EdgeInsets.all(5),
+                                            child: Image.asset(
+                                              'assets/images/special.png',
+                                              fit: BoxFit.cover,
+                                            ))),
+                                  if (model.image != null ||
+                                      model.image.isNotEmpty)
+                                    Center(
+                                        child: Container(
+                                            width: imageWidth,
+                                            height: imageHeight,
+                                            padding: EdgeInsets.all(5),
+                                            child: CachedNetworkImage(
+                                                imageUrl: model.image,
+                                                progressIndicatorBuilder: (context,
+                                                        url,
+                                                        downloadProgress) =>
+                                                    Center(
+                                                        child: SizedBox(
+                                                            width: 20,
+                                                            height: 20,
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              value:
+                                                                  downloadProgress
+                                                                      .progress,
+                                                              backgroundColor:
+                                                                  colorFFFFFF,
+                                                              valueColor:
+                                                                  new AlwaysStoppedAnimation<
+                                                                          Color>(
+                                                                      gray[
+                                                                          200]),
+                                                            ))),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Image.asset(
+                                                          'assets/images/special.png',
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                fit: BoxFit.contain))),
+                                  Positioned(
+                                      left: 20,
+                                      bottom: 15,
+                                      child: LikeDislike(
+                                        initialValue: productIsInFavoriteList(),
+                                        onValueChanged: (value) async {
+                                          await changeProductFavoriteList(
+                                              value);
+                                        },
+                                      ))
+                                ],
+                              ),
                               Container(
                                 width: ScreenConfig.width,
                                 padding: EdgeInsets.only(
@@ -141,6 +158,7 @@ class ProductViewerInList extends StatelessWidget {
                                           minRating: 1,
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
+                                          ignoreGestures: true,
                                           itemCount: 5,
                                           itemSize: 20,
                                           maxRating: 10,
@@ -177,25 +195,23 @@ class ProductViewerInList extends StatelessWidget {
                                 title: 'برند کالا',
                               ),
                             ]))),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: GestureDetector(
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: InkWell(
                       onTap: () {
+                        print('back tapped');
                         bloc.categoryControllerBloc.productTabItem
                             .changeValue(0);
                       },
                       child: Container(
-                          color: colorFFFFFF,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(FontAwesomeIcons.arrowRight,
-                                  color: color1C1C1C, size: 16),
-                              Text('  انصراف ',
-                                  style: textStyleBold(
-                                      size: 14, color: color1C1C1C))
-                            ],
-                          ))),
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            color: color1C1C1C.withOpacity(0.7)),
+                        child: Icon(FontAwesomeIcons.arrowRight,
+                            color: colorFFFFFF, size: 16),
+                      )),
                 )
               ]),
               Container(
@@ -350,6 +366,12 @@ class ProductViewerInList extends StatelessWidget {
                               ),
                               fit: BoxFit.contain,
                             )))),
+              if (productIsInFavoriteList())
+                Positioned(
+                    right: 3,
+                    top: 3,
+                    child: Icon(FontAwesomeIcons.solidHeart,
+                        color: colorFF0000.withOpacity(0.7), size: 10)),
               Positioned(
                   bottom: 0,
                   left: 0,
@@ -420,18 +442,18 @@ class ProductViewerInList extends StatelessWidget {
                             softWrap: true,
                             overflow: TextOverflow.fade),
                       ])),
-              Container(
-                  width: width,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: colorCF5A00,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(4),
-                          bottomRight: Radius.circular(4))),
-                  child: GestureDetector(
-                      onTap: () {
-                        bloc.categoryControllerBloc.selectProduct(model);
-                      },
+              GestureDetector(
+                  onTap: () {
+                    bloc.categoryControllerBloc.selectProduct(model);
+                  },
+                  child: Container(
+                      width: width,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: colorCF5A00,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(4),
+                              bottomRight: Radius.circular(4))),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -486,5 +508,20 @@ class ProductViewerInList extends StatelessWidget {
         model.salePrice > 0)
       return textStyleBoldWithOverLine(color: colorBABABA, size: size);
     return textStyleBold(color: colorFFFFFF, size: size);
+  }
+
+  bool productIsInFavoriteList() {
+    if (!LocalDatabase.containsKey(LocalDatabase.productFavorite)) return false;
+    return LocalDatabase.containsStringList(
+        LocalDatabase.productFavorite, model.code);
+  }
+
+  Future<void> changeProductFavoriteList(bool liked) async {
+    if (liked)
+      await LocalDatabase.addToStringList(
+          LocalDatabase.productFavorite, model.code);
+    else
+      await LocalDatabase.deleteStringList(
+          LocalDatabase.productFavorite, model.code);
   }
 }

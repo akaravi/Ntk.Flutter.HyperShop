@@ -4,7 +4,7 @@ import 'package:hypertools/theme/theme.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class NumericUpDown extends StatefulWidget {
-  final int Function() valueChanged;
+  final Function(int) valueChanged;
   final int initValue;
   NumericUpDown({
     Key key,
@@ -34,17 +34,20 @@ class _NumericUpDownState extends State<NumericUpDown> {
               if (value + 1 > 999) return;
               setState(() {
                 value++;
+                changeValue(value);
               });
             },
             onLongPress: () {
               if (value + 10 > 999) {
                 setState(() {
                   value = 999;
+                  changeValue(value);
                 });
                 return;
               }
               setState(() {
                 value = value + 10;
+                changeValue(value);
               });
             },
             child: Icon(
@@ -60,16 +63,19 @@ class _NumericUpDownState extends State<NumericUpDown> {
               if (value - 1 == 0) return;
               setState(() {
                 value--;
+                changeValue(value);
               });
             },
             onLongPress: () {
               if (value - 10 == 0) {
                 setState(() {
                   value = 1;
+                  changeValue(value);
                   return;
                 });
                 setState(() {
                   value = value - 10;
+                  changeValue(value);
                 });
               }
             },
@@ -82,6 +88,10 @@ class _NumericUpDownState extends State<NumericUpDown> {
         ],
       ),
     );
+  }
+
+  void changeValue(int value) {
+    if (widget.valueChanged != null) widget.valueChanged(value);
   }
 
   String getValue(String data) {

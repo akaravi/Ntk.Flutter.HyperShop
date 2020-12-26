@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           // padding: EdgeInsets.only(top: 10, bottom: 10),
           decoration: BoxDecoration(
             color: colorFFFFFF,
-            borderRadius: BorderRadius.circular(5),
+            // borderRadius: BorderRadius.circular(5),
           ),
           child: child),
     );
