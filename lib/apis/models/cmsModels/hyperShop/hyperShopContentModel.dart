@@ -25,6 +25,7 @@ class HyperShopContentModel extends ModelBase {
       this.brand,
       this.sale,
       this.tags,
+      this.buyCount,
       this.colors,
       this.measurement,
       this.isShowMoreObject = false,
@@ -96,8 +97,17 @@ class HyperShopContentModel extends ModelBase {
   @JsonKey(name: 'rowId', nullable: true)
   int rowId;
 
+  @JsonKey(name: 'buyCount', nullable: true)
+  int buyCount = 0;
+
   @JsonKey(ignore: true)
   bool isShowMoreObject = false;
+
+  @JsonKey(ignore: true)
+  bool calledFromCategoryShow;
+
+  @JsonKey(ignore: true)
+  bool calledFromSearch;
 
   static HyperShopContentModel fromJsonObject(Object value) =>
       HyperShopContentModel.fromJson(value);

@@ -67,19 +67,23 @@ class _ProductCategoryViewerState extends State<ProductCategoryViewer> {
                       onTap: () {
                         if (widget.onExpandClick != null)
                           widget.onExpandClick(widget.model);
+                        widget.bloc.categoryControllerBloc
+                            .selectCategoryToShow(widget.categoryBloc);
                       },
-                      child: Row(
-                        children: [
-                          Text('موارد بیشتر  ',
-                              style:
-                                  textStyleBold(color: color257EEA, size: 9)),
-                          Icon(
-                            FontAwesomeIcons.arrowCircleLeft,
-                            size: 16,
-                            color: color257EEA,
-                          ),
-                        ],
-                      ))
+                      child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            children: [
+                              Text('موارد بیشتر  ',
+                                  style: textStyleBold(
+                                      color: color257EEA, size: 9)),
+                              Icon(
+                                FontAwesomeIcons.arrowCircleLeft,
+                                size: 16,
+                                color: color257EEA,
+                              ),
+                            ],
+                          )))
                 ],
               )),
           Container(

@@ -4,12 +4,17 @@ import 'dart:io';
 import 'package:hypertools/apis/models/cmsModels/coreTokenModels/authUserSignInBySmsDtoModel.dart';
 import 'package:hypertools/apis/models/cmsModels/coreTokenModels/authUserSignUpModel.dart';
 import 'package:hypertools/apis/models/cmsModels/coreTokenModels/dateModel.dart';
+import 'package:hypertools/apis/models/cmsModels/hyperShop/hyperShopContentModel.dart';
+import 'package:hypertools/apis/models/models/filterDataModel.dart';
+import 'package:hypertools/apis/models/models/filterModel.dart';
 import 'package:hypertools/apis/serverApis/cmsService/application/applicationAppService.dart';
 import 'package:hypertools/apis/serverApis/cmsService/coreToken/authService.dart';
+import 'package:hypertools/apis/serverApis/cmsService/hyperShop/hyperShopContentService.dart';
 import 'package:hypertools/bloc/captcha_viewer_bloc.dart';
 import 'package:hypertools/bloc/update_app_bloc.dart';
 import 'package:hypertools/poco/ErrorExceptionResultBase.dart';
 import 'package:hypertools/poco/database_local.dart';
+import 'package:hypertools/poco/errorExceptionResult.dart';
 import 'package:hypertools/poco/stream_helper.dart';
 import 'package:hypertools/validators/user_validator.dart';
 import 'package:hypertools/apis/models/cmsDtoModels/coreToken/tokenDeviceClientInfoDtoModel.dart';
@@ -39,6 +44,12 @@ class MainUserBloc extends Object {
       initValue: '',
       transformerCallBack: () => UserValidator().validatePhoneNumber);
 
+  StreamHelper<String> productNameToSearch = StreamHelper<String>(
+      initValue: '',
+      transformerCallBack: () => ProductValidator().validateProductName);
+  StreamHelper<bool> productSearchLoading =
+      StreamHelper<bool>(initValue: false);
+
   StreamHelper<int> userRegisterTabIndex = StreamHelper<int>(initValue: 0);
   StreamHelper<int> createMemberCountDown = StreamHelper<int>(initValue: 120);
   StreamHelper<String> userSmsEntered = StreamHelper<String>(initValue: '');
@@ -48,6 +59,7 @@ class MainUserBloc extends Object {
   StreamHelper<String> notConnectedToInternet =
       StreamHelper<String>(initValue: '');
 
+  ErrorExceptionResult<HyperShopContentModel> lastSearchResult;
   bool userHasLogined = false;
 
   Timer prevTimer;
@@ -118,7 +130,7 @@ class MainUserBloc extends Object {
     if (isInInitData) return null;
     var uiResultType = ErrorExceptionResultType.none;
     isInInitData = true;
-    LocalDatabase.init();
+    await LocalDatabase.init();
     print('in init');
     var service = AuthService();
     if (!await service.isConnectedToInternet(
@@ -139,6 +151,7 @@ class MainUserBloc extends Object {
           errCode: uiResultType);
     } else {
       serverDate = date;
+      await orderBloc.initBloc();
       isInOfflineMode.changeValue(false);
       var devicetype = EnumDeviceType.Android;
       var ostype = EnumOperatingSystemType.GoogleAndroid;
@@ -197,6 +210,27 @@ class MainUserBloc extends Object {
     if (uiResultType != ErrorExceptionResultType.hasUpdateForce)
       await categoryControllerBloc.getProductCategories();
     return ErrorExceptionResultBase.success(errCode: uiResultType);
+  }
+
+  Future<void> searchProductByName(String name) async {
+    productSearchLoading.changeValue(true);
+    var service = new HyperShopContentService();
+    service.setAuthorizationToken('',
+        deviceToken: MainUserBloc.deviceTokenData);
+    var rt = await service.serviceGetAllMicroServiceAsync(FilterModel(
+      filters: [
+        FilterDataModel(
+            propertyName: 'Name',
+            value: name,
+            stringValue1: name,
+            clauseType: ClauseType.And,
+            searchType: FilterDataModelSearchTypes.Contains)
+      ],
+      currentPageNumber: 0,
+      rowPerPage: 99999,
+    ));
+    lastSearchResult = rt;
+    productSearchLoading.changeValue(false);
   }
 
   void dispose() {

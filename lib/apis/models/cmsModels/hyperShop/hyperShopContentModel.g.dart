@@ -29,6 +29,7 @@ HyperShopContentModel _$HyperShopContentModelFromJson(
     sale: json['Sale'] as bool,
     tags: json['Tags'] as String,
     colors: json['Colors'] as String,
+    buyCount: json['buyCount'] as int,
     measurement: json['measurement'] as String,
     rowId: json['rowId'] as int,
   );
@@ -56,6 +57,7 @@ Map<String, dynamic> _$HyperShopContentModelToJson(
       'Brand': instance.brand,
       'Sale': instance.sale,
       'Tags': instance.tags,
+      'buyCount': instance.buyCount,
       'Colors': instance.colors,
       'measurement': instance.measurement,
       'rowId': instance.rowId,

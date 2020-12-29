@@ -33,7 +33,7 @@ class CategoryItemBloc extends Object {
     service.setAuthorizationToken('',
         deviceToken: MainUserBloc.deviceTokenData);
     var filter = FilterModel(
-        count: true,
+        count: false,
         currentPageNumber: 0,
         rowPerPage: 10,
         filters: [
@@ -44,10 +44,8 @@ class CategoryItemBloc extends Object {
               clauseType: ClauseType.And,
               searchType: FilterDataModelSearchTypes.Equal)
         ]);
-    print(filter.toJson());
     var rt = await service.serviceGetAllMicroServiceAsync(filter);
     if (rt.isSuccess) {
-      print('isSuccess ' + rt.listItems.length.toString());
       previewList.changeValue(rt.listItems);
     } else
       print(rt.errorMessage);
@@ -63,10 +61,18 @@ class CategoryItemBloc extends Object {
     service.setAuthorizationToken('',
         deviceToken: MainUserBloc.deviceTokenData);
     var rt = await service.serviceGetAllMicroServiceAsync(FilterModel(
-        count: true,
-        currentPageNumber: 0,
-        rowPerPage: 9999,
-        sortColumn: "rowId"));
+      filters: [
+        FilterDataModel(
+            propertyName: 'CategoryCode',
+            value: model.code,
+            stringValue1: model.code,
+            clauseType: ClauseType.And,
+            searchType: FilterDataModelSearchTypes.Equal)
+      ],
+      count: false,
+      currentPageNumber: 0,
+      rowPerPage: 99999,
+    ));
     if (rt.isSuccess) {
       fullList.changeValue(rt.listItems);
     }

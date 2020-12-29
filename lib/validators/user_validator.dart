@@ -17,3 +17,18 @@ class UserValidator {
         }
       });
 }
+
+class ProductValidator {
+  StreamTransformer<String, String> get validateProductName =>
+      StreamTransformer<String, String>.fromHandlers(handleData: (value, sink) {
+        if (value == null || value.isEmpty) {
+          sink.add(value);
+          return;
+        }
+        if (value.length < 3) {
+          sink.addError('لطفاَ حداقل سه حرف از نام کالا را وارد کنید');
+        } else {
+          sink.add(value);
+        }
+      });
+}

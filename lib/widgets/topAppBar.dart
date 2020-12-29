@@ -48,6 +48,7 @@ class TopAppBar extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
             onTap: () {
+              bloc.categoryControllerBloc.productTabItem.changeValue(0);
               bloc.mainTabIndex.changeValue(0);
             },
             splashColor: Colors.grey.withOpacity(.1),
@@ -61,7 +62,7 @@ class TopAppBar extends StatelessWidget {
                 border: Border.all(color: Colors.grey, width: .5),
               ),
               child: Icon(
-                FontAwesomeIcons.backward,
+                FontAwesomeIcons.home,
                 size: 18,
                 color: colorBABABA.withOpacity(0.8),
               ),

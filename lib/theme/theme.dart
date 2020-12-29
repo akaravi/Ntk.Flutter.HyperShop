@@ -314,6 +314,35 @@ InputDecoration usernameDecoration({String errorText = ''}) {
   );
 }
 
+InputDecoration productNameDecoration({String errorText = ''}) {
+  return InputDecoration(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.only(
+          topRight: Radius.circular(3), bottomRight: Radius.circular(3)),
+      borderSide: BorderSide(
+        color: color1C1C1C,
+        width: 0.8,
+        style: BorderStyle.solid,
+      ),
+      //gapPadding: ThemeColor.getPercentageDisplayWidth(5)
+    ),
+    contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15, bottom: 5),
+    // suffixIcon: Icon(
+    //   FontAwesomeIcons.search,
+    //   color: color1C1C1C,
+    //   size: 20,
+    // ),
+    enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(3), bottomRight: Radius.circular(3)),
+        borderSide: BorderSide(color: color1C1C1C, width: 0.8)),
+    hintText: 'قسمتی از نام کالا را وارد کنید',
+    hintStyle: textStyleRegular(color: color1C1C1C, size: 14),
+    errorText: errorText,
+    errorStyle: textStyleRegular(color: color1C1C1C, size: 11),
+  );
+}
+
 InputDecoration smsDataDecoration({String errorText = ''}) {
   return InputDecoration(
     border: OutlineInputBorder(

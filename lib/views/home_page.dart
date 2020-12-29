@@ -10,6 +10,9 @@ import 'package:hypertools/widgets/appDrawerMenu.dart';
 import 'package:hypertools/widgets/topAppBar.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+import 'order_page.dart';
+import 'search_page.dart';
+
 class HomePage extends StatefulWidget {
   final MainUserBloc bloc;
   HomePage({Key key, this.bloc}) : super(key: key);
@@ -79,8 +82,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         screens: [
           // ProductPage(bloc: widget.bloc),
           getScreen(context, ProductPage(bloc: widget.bloc)),
-          getScreen(context, Container()),
-          getScreen(context, Container()),
+          getScreen(context, OrderPage(bloc: widget.bloc)),
+          getScreen(context, SearchPage(bloc: widget.bloc)),
           getScreen(context, Container()),
         ],
         items: _navBarsItems(),
@@ -96,6 +99,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ? 0.0
             : kBottomNavigationBarHeight,
         hideNavigationBarWhenKeyboardShows: true, onItemSelected: (index) {
+      if (index == 0) {
+        widget.bloc.categoryControllerBloc.productTabItem.changeValue(0);
+      }
       widget.bloc.mainTabIndex.changeValue(index);
     },
         margin: EdgeInsets.all(0),
@@ -227,7 +233,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Future<bool> _requestPop() {
     if (widget.bloc.categoryControllerBloc.productTabItem.lastValue != null &&
         widget.bloc.categoryControllerBloc.productTabItem.lastValue > 0) {
-      widget.bloc.categoryControllerBloc.productTabItem.changeValue(0);
+      if (widget.bloc.categoryControllerBloc.productTabItem.lastValue == 2)
+        widget.bloc.categoryControllerBloc.productTabItem.changeValue(0);
+      else if (widget.bloc.categoryControllerBloc.selectedProduct.lastValue !=
+              null &&
+          widget.bloc.categoryControllerBloc.selectedProduct.lastValue
+              .calledFromCategoryShow)
+        widget.bloc.categoryControllerBloc.productTabItem.changeValue(2);
+      else
+        widget.bloc.categoryControllerBloc.productTabItem.changeValue(0);
       return new Future.value(false);
     }
     if (widget.bloc.openAppDrawer.lastValue != null &&

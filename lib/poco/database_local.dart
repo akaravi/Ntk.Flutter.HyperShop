@@ -88,6 +88,12 @@ class LocalDatabase {
     }
   }
 
+  static Future<void> clearValue(String key) async {
+    if (containsKey(key)) {
+      await preferences.remove(key);
+    }
+  }
+
   static Future<void> setStringList(String key, List<String> items) async {
     await preferences.setStringList(key, items);
   }
@@ -95,4 +101,5 @@ class LocalDatabase {
   static String termAndConditionSettedKey = 'termandconditionsetted';
   static String appVersionKey = 'appversion';
   static String productFavorite = 'productfavorite';
+  static String lastOrderKey = 'lastorderkey';
 }

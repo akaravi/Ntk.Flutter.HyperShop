@@ -19,6 +19,8 @@ class CategoryControllerBloc extends Object {
   StreamHelper<int> productTabItem = StreamHelper<int>(initValue: 0);
   StreamHelper<HyperShopContentModel> selectedProduct =
       StreamHelper<HyperShopContentModel>();
+  StreamHelper<CategoryItemBloc> selectedCategory =
+      StreamHelper<CategoryItemBloc>();
   ObserverList<CategoryItemBloc> innerBlocs = ObserverList<CategoryItemBloc>();
 
   Future<ErrorExceptionResult<HyperShopCategoryModel>>
@@ -73,11 +75,28 @@ class CategoryControllerBloc extends Object {
     return bloc;
   }
 
-  void selectProduct(HyperShopContentModel model) {
-    selectedProduct.changeValue(null);
-    productTabItem.changeValue(1);
+  CategoryItemBloc lastCategorySelected;
+  void selectCategoryToShow(CategoryItemBloc bloc) {
+    selectedCategory.changeValue(null);
+    productTabItem.changeValue(2);
     Future.delayed(Duration(milliseconds: 500), () {
-      selectedProduct.changeValue(model);
+      lastCategorySelected = bloc;
+      selectedCategory.changeValue(bloc);
+    });
+  }
+
+  void reSelectCategory() {}
+
+  Future<void> selectProductToShow(
+      HyperShopContentModel model, bool calledFromCategoryShow) async {
+    selectedProduct.changeValue(null);
+    parent.mainTabIndex.changeValue(0);
+    productTabItem.changeValue(1);
+    var mdl = await parent.orderBloc.getLastModel(model);
+    mdl.calledFromCategoryShow = calledFromCategoryShow;
+    mdl.calledFromSearch = model.calledFromSearch;
+    Future.delayed(Duration(milliseconds: 500), () {
+      selectedProduct.changeValue(mdl);
     });
   }
 }
