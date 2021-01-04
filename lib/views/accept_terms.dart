@@ -71,22 +71,20 @@ class AcceptTerms extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          rowWithFree(
-              centerSize: 6,
-              center: Row(
-                children: <Widget>[
-                  termConditionStream(context),
-                  GestureDetector(
-                    onTap: () {
-                      bloc.acceptTermAndCondition
-                          .changeValue(!bloc.acceptTermAndCondition.lastValue);
-                    },
-                    child: Text('کلیه قوانین و مقررات را خوانده و می پذیرم ',
-                        style: textStyleRegular(color: colorFFFFFF, size: 13)),
-                  ),
-                  readtermConditionButton(context)
-                ],
-              )),
+          Row(
+            children: <Widget>[
+              termConditionStream(context),
+              GestureDetector(
+                onTap: () {
+                  bloc.acceptTermAndCondition
+                      .changeValue(!bloc.acceptTermAndCondition.lastValue);
+                },
+                child: Text('کلیه قوانین و مقررات را خوانده و می پذیرم ',
+                    style: textStyleRegular(color: colorFFFFFF, size: 13)),
+              ),
+              readtermConditionButton(context)
+            ],
+          ),
         ],
       ),
     );

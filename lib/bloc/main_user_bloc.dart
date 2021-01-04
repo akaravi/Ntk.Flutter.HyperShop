@@ -209,6 +209,7 @@ class MainUserBloc extends Object {
     isInInitData = false;
     if (uiResultType != ErrorExceptionResultType.hasUpdateForce)
       await categoryControllerBloc.getProductCategories();
+    innerShowAcceptTermPage = true;
     return ErrorExceptionResultBase.success(errCode: uiResultType);
   }
 

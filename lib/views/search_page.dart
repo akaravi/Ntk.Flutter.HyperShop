@@ -64,6 +64,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(child: productNameStream()),
                 GestureDetector(
@@ -162,7 +163,7 @@ class _SearchPageState extends State<SearchPage> {
       primary: false,
       physics: const AlwaysScrollableScrollPhysics(),
       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 0.70, crossAxisCount: 2),
+          childAspectRatio: 0.65, crossAxisCount: 2),
       itemBuilder: (BuildContext ctx, int index) {
         lst[index].calledFromSearch = true;
         return Container(
@@ -276,7 +277,6 @@ class _SearchPageState extends State<SearchPage> {
       widget.bloc.lastSearchResult = null;
     });
     print('search with ' + str);
-    str = 'نوش';
     await widget.bloc.searchProductByName(str);
 
     // print(productNameController.text);

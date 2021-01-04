@@ -158,7 +158,7 @@ class _ProductPageState extends State<ProductPage>
       primary: false,
       physics: const AlwaysScrollableScrollPhysics(),
       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 0.72, crossAxisCount: 2),
+          childAspectRatio: 0.65, crossAxisCount: 2),
       itemBuilder: (BuildContext ctx, int index) {
         return Container(
             margin: EdgeInsets.only(left: 14, right: 14, top: 12, bottom: 12),

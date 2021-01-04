@@ -122,7 +122,7 @@ class _ProductCategoryViewerState extends State<ProductCategoryViewer> {
         return Column(children: [
           Container(
               width: ScreenConfig.vBlocks * 100,
-              height: ScreenConfig.vBlocks * 43,
+              height: ScreenConfig.vBlocks * 48,
               child: ListView(
                 controller: listViewHorizontalController,
                 padding: EdgeInsets.only(left: 100),
@@ -165,7 +165,7 @@ class _ProductCategoryViewerState extends State<ProductCategoryViewer> {
           child: Container(
               color: colorFFFFFF,
               width: ScreenConfig.vBlocks * 26,
-              height: ScreenConfig.vBlocks * 44,
+              height: ScreenConfig.vBlocks * 48,
               padding: EdgeInsets.all(10),
               child: Center(
                   child: Text(
@@ -179,7 +179,7 @@ class _ProductCategoryViewerState extends State<ProductCategoryViewer> {
           child: Container(
               color: colorFFFFFF,
               width: ScreenConfig.vBlocks * 26,
-              height: ScreenConfig.vBlocks * 44,
+              height: ScreenConfig.vBlocks * 48,
               padding: EdgeInsets.all(10),
               child: Center(
                   child: GestureDetector(

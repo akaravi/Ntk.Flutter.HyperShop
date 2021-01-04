@@ -14,7 +14,10 @@ class UserRegister extends StatefulWidget {
   final bool openFromDrawer;
   final bool openFromOrder;
   UserRegister(
-      {Key key, this.bloc, this.openFromDrawer = false, this.openFromOrder})
+      {Key key,
+      this.bloc,
+      this.openFromDrawer = false,
+      this.openFromOrder = false})
       : super(key: key);
 
   @override
@@ -402,7 +405,7 @@ class _UserRegisterState extends State<UserRegister>
                       border: Border.all(color: blue[50], width: 0.6),
                       borderRadius: BorderRadius.circular(15)),
                   child: Text(
-                    ((widget.openFromDrawer || widget.openFromOrder)
+                    ((widget.openFromDrawer != null && widget.openFromOrder)
                         ? ' بازگشت    '
                         : 'صرف نظر از وارد کردن شماره موبایل'),
                     textAlign: TextAlign.center,

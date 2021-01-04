@@ -37,7 +37,7 @@ class ProductViewerInList extends StatelessWidget {
 
   Widget inOrderList(BuildContext ctx) {
     ScreenConfig().init(ctx);
-    var height = ScreenConfig.height / 7;
+    var height = ScreenConfig.height / 6;
     var imageWidth = height / 1.6;
     var imageHeight = height;
     return Padding(
@@ -526,163 +526,460 @@ class ProductViewerInList extends StatelessWidget {
 
   Widget inCategoryComponent(BuildContext context) {
     double imageWidth = ScreenConfig.vBlocks * 15;
-    return Container(
-      decoration: BoxDecoration(
-          color: gray[400],
-          borderRadius: BorderRadius.circular(3),
-          boxShadow: [
-            BoxShadow(color: color000000.withOpacity(0.7), blurRadius: 5)
-          ]),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Stack(
+    return GestureDetector(
+        onTap: () async {
+          await bloc.categoryControllerBloc
+              .selectProductToShow(model, isInCategoryView);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: gray[400],
+              borderRadius: BorderRadius.circular(3),
+              boxShadow: [
+                BoxShadow(color: color000000.withOpacity(0.7), blurRadius: 5)
+              ]),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              if (model.image == null || model.image.isEmpty)
-                Container(
-                    child: Center(
-                        child: Container(
-                            width: imageWidth,
-                            height: imageWidth * 1.6,
-                            padding: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                color: gray[400],
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(3),
-                                    topRight: Radius.circular(3))),
-                            child: Image.asset(
-                              'assets/images/special.png',
-                              fit: BoxFit.cover,
-                            )))),
-              if (model.image != null || model.image.isNotEmpty)
-                Container(
-                    // width: width,
-                    child: Center(
-                        child: Container(
-                            width: imageWidth,
-                            height: imageWidth * 1.6,
-                            decoration: BoxDecoration(
-                                color: gray[400],
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(3),
-                                    topRight: Radius.circular(3))),
-                            child: CachedNetworkImage(
-                              imageUrl: model.image,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) => Center(
-                                      child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            value: downloadProgress.progress,
-                                            backgroundColor: colorFFFFFF,
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                    Color>(gray[200]),
-                                          ))),
-                              errorWidget: (context, url, error) => Image.asset(
-                                'assets/images/special.png',
-                                fit: BoxFit.cover,
-                              ),
-                              fit: BoxFit.contain,
-                            )))),
-              if (productIsInFavoriteList())
-                Positioned(
-                  right: 3,
-                  top: 3,
-                  child: Icon(FontAwesomeIcons.solidHeart,
-                      color: colorFF0000.withOpacity(0.7), size: 10),
-                ),
-              Positioned(
-                  right: 3,
-                  top: 17,
-                  child: InlineOrderView(
-                    bloc: bloc,
-                    model: model,
-                    builder: (ctx, mdl) {
-                      return Icon(FontAwesomeIcons.shoppingBasket,
-                          color: colorFF0000.withOpacity(0.7), size: 10);
-                    },
-                  )),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                        color: colorCF5A00,
-                        borderRadius:
-                            BorderRadius.only(topRight: Radius.circular(3))),
-                    child: Text(
-                        getPrice(model.price, model.salePrice)
-                            .seRagham()
-                            .toPersianDigit(),
-                        style: getStyle()),
-                  )),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                    // width: width,
-                    height: 0.4,
-                    color: color707070.withOpacity(0.2),
-                  )),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 3),
-            child: Text(
-              model.name,
-              style: textStyleBold(color: color1C1C1C, size: 15),
-              softWrap: true,
-              overflow: TextOverflow.fade,
-            ),
-          ),
-          if (model.description != null && model.description.isNotEmpty)
-            Container(
-                // width: width - 5,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 5, right: 5),
-                    child: Text(model.description,
-                        style: textStyleBold(
-                            color: color707070.withOpacity(0.7), size: 10),
-                        softWrap: true,
-                        maxLines: 1,
-                        overflow: TextOverflow.fade))),
-          Column(
-            children: [
-              Container(
-                  color: gray,
-                  // width: width,
-                  padding: EdgeInsets.only(
-                    right: 5,
-                    left: 5,
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text('قیمت :',
-                            style: textStyleBold(
-                                color: color707070.withOpacity(0.9), size: 14)),
-                        Text(
-                            getPrice(model.salePrice, model.price)
+              Stack(
+                children: [
+                  if (model.image == null || model.image.isEmpty)
+                    Container(
+                        child: Center(
+                            child: Container(
+                                width: imageWidth,
+                                height: imageWidth * 1.6,
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: gray[400],
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(3),
+                                        topRight: Radius.circular(3))),
+                                child: Image.asset(
+                                  'assets/images/special.png',
+                                  fit: BoxFit.cover,
+                                )))),
+                  if (model.image != null || model.image.isNotEmpty)
+                    Container(
+                        // width: width,
+                        child: Center(
+                            child: Container(
+                                width: imageWidth,
+                                height: imageWidth * 1.6,
+                                decoration: BoxDecoration(
+                                    color: gray[400],
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(3),
+                                        topRight: Radius.circular(3))),
+                                child: CachedNetworkImage(
+                                  imageUrl: model.image,
+                                  progressIndicatorBuilder: (context, url,
+                                          downloadProgress) =>
+                                      Center(
+                                          child: SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress,
+                                                backgroundColor: colorFFFFFF,
+                                                valueColor:
+                                                    new AlwaysStoppedAnimation<
+                                                        Color>(gray[200]),
+                                              ))),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    'assets/images/special.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                  fit: BoxFit.contain,
+                                )))),
+                  if (productIsInFavoriteList())
+                    Positioned(
+                      right: 3,
+                      top: 3,
+                      child: Icon(FontAwesomeIcons.solidHeart,
+                          color: colorFF0000.withOpacity(0.7), size: 10),
+                    ),
+                  Positioned(
+                      right: 3,
+                      top: 17,
+                      child: InlineOrderView(
+                        bloc: bloc,
+                        model: model,
+                        builder: (ctx, mdl) {
+                          return Icon(FontAwesomeIcons.shoppingBasket,
+                              color: colorFF0000.withOpacity(0.7), size: 10);
+                        },
+                      )),
+                  Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                            color: colorCF5A00,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(3))),
+                        child: Text(
+                            getPrice(model.price, model.salePrice)
                                 .seRagham()
                                 .toPersianDigit(),
-                            style: textStyleBold(color: color1C1C1C, size: 16),
-                            softWrap: true,
-                            overflow: TextOverflow.fade),
-                      ])),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
+                            style: getStyle()),
+                      )),
+                  Positioned(
+                      bottom: 0,
+                      left: 0,
                       child: Container(
-                          // width:  40,
+                        // width: width,
+                        height: 0.4,
+                        color: color707070.withOpacity(0.2),
+                      )),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 5, left: 5, top: 3),
+                child: Text(
+                  model.name,
+                  style: textStyleBold(color: color1C1C1C, size: 15),
+                  softWrap: true,
+                  overflow: TextOverflow.fade,
+                ),
+              ),
+              if (model.description != null && model.description.isNotEmpty)
+                Container(
+                    // width: width - 5,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        child: Text(model.description,
+                            style: textStyleBold(
+                                color: color707070.withOpacity(0.7), size: 10),
+                            softWrap: true,
+                            maxLines: 1,
+                            overflow: TextOverflow.fade))),
+              Column(
+                children: [
+                  Container(
+                      color: gray,
+                      // width: width,
+                      padding: EdgeInsets.only(
+                        right: 5,
+                        left: 5,
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text('قیمت :',
+                                style: textStyleBold(
+                                    color: color707070.withOpacity(0.9),
+                                    size: 14)),
+                            Text(
+                                getPrice(model.salePrice, model.price)
+                                    .seRagham()
+                                    .toPersianDigit(),
+                                style:
+                                    textStyleBold(color: color1C1C1C, size: 16),
+                                softWrap: true,
+                                overflow: TextOverflow.fade),
+                          ])),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                          child: Container(
+                              // width:  40,
+                              height: 40,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: colorCF5A00,
+                                  borderRadius: BorderRadius.only(
+                                      // bottomLeft: Radius.circular(4),
+                                      bottomRight: Radius.circular(4))),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                      onTap: () async {
+                                        if (model.buyCount == null ||
+                                            model.buyCount == 0) {
+                                          model.buyCount = 1;
+                                          await buyProductInLine(model);
+                                        } else {
+                                          model.buyCount = 0;
+                                          await buyProductInLine(model);
+                                        }
+                                      },
+                                      child: InlineOrderView(
+                                        bloc: bloc,
+                                        model: model,
+                                        notFoundBuilder: (ctx, mdl) {
+                                          return Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.shoppingBasket,
+                                                color: colorFFFFFF,
+                                                size: 12,
+                                              ),
+                                              Text(
+                                                '  خرید',
+                                                style: textStyleBold(
+                                                    color: colorFFFFFF,
+                                                    size: 12),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                        builder: (ctx, mdl) {
+                                          return Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              // Icon(
+                                              //   FontAwesomeIcons.solidTrashAlt,
+                                              //   color: colorFFFFFF,
+                                              //   size: 12,
+                                              // ),
+                                              Text(
+                                                '  انصراف',
+                                                style: textStyleBold(
+                                                    color: colorFFFFFF,
+                                                    size: 10),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      )),
+                                  InlineOrderView(
+                                      bloc: bloc,
+                                      model: model,
+                                      builder: (ctx, mdl) {
+                                        return NumericUpDown(
+                                          valueChanged: (value) async {
+                                            if (mdl == null) {
+                                              print('model is null');
+                                              return;
+                                            }
+                                            mdl.buyCount = value;
+                                            await buyProductInLine(mdl);
+                                          },
+                                          color: colorFFFFFF,
+                                          fontSize: 14,
+                                          allowLongTap: false,
+                                          initValue: mdl.buyCount,
+                                        );
+                                      }),
+                                ],
+                              ))),
+                      GestureDetector(
+                          onTap: () async {
+                            await bloc.categoryControllerBloc
+                                .selectProductToShow(model, isInCategoryView);
+                          },
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: colorCF5A00.withOpacity(0.9),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(4),
+                                  //bottomRight: Radius.circular(4)
+                                )),
+                            child: Icon(
+                              FontAwesomeIcons.chevronLeft,
+                              color: colorFFFFFF,
+                              size: 16,
+                            ),
+                          ))
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
+        ));
+  }
+
+  Widget inPreviewComponent(BuildContext context) {
+    double width = ScreenConfig.vBlocks * 26;
+    double imageWidth = ScreenConfig.vBlocks * 15;
+    return GestureDetector(
+        onTap: () async {
+          await bloc.categoryControllerBloc
+              .selectProductToShow(model, isInCategoryView);
+        },
+        child: Container(
+          width: width,
+          height: ScreenConfig.vBlocks * 48,
+          decoration: BoxDecoration(
+              color: gray[400],
+              borderRadius: BorderRadius.circular(3),
+              boxShadow: [
+                BoxShadow(color: color000000.withOpacity(0.7), blurRadius: 5)
+              ]),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Stack(
+                children: [
+                  if (model.image == null || model.image.isEmpty)
+                    Container(
+                        width: width,
+                        child: Center(
+                            child: Container(
+                                width: imageWidth,
+                                height: imageWidth * 1.6,
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: gray[400],
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(3),
+                                        topRight: Radius.circular(3))),
+                                child: Image.asset(
+                                  'assets/images/special.png',
+                                  fit: BoxFit.cover,
+                                )))),
+                  if (model.image != null || model.image.isNotEmpty)
+                    Container(
+                        width: width,
+                        child: Center(
+                            child: Container(
+                                width: imageWidth,
+                                height: imageWidth * 1.6,
+                                decoration: BoxDecoration(
+                                    color: gray[400],
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(3),
+                                        topRight: Radius.circular(3))),
+                                child: CachedNetworkImage(
+                                  imageUrl: model.image,
+                                  progressIndicatorBuilder: (context, url,
+                                          downloadProgress) =>
+                                      Center(
+                                          child: SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress,
+                                                backgroundColor: colorFFFFFF,
+                                                valueColor:
+                                                    new AlwaysStoppedAnimation<
+                                                        Color>(gray[200]),
+                                              ))),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    'assets/images/special.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                  fit: BoxFit.contain,
+                                )))),
+                  if (productIsInFavoriteList())
+                    Positioned(
+                      right: 3,
+                      top: 3,
+                      child: Icon(FontAwesomeIcons.solidHeart,
+                          color: colorFF0000.withOpacity(0.7), size: 10),
+                    ),
+                  Positioned(
+                      right: 3,
+                      top: 17,
+                      child: InlineOrderView(
+                        bloc: bloc,
+                        model: model,
+                        builder: (ctx, mdl) {
+                          return Icon(FontAwesomeIcons.shoppingBasket,
+                              color: colorFF0000.withOpacity(0.7), size: 10);
+                        },
+                      )),
+                  Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                            color: colorCF5A00,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(3))),
+                        child: Text(
+                            getPrice(model.price, model.salePrice)
+                                .seRagham()
+                                .toPersianDigit(),
+                            style: getStyle()),
+                      )),
+                  Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: Container(
+                        width: width,
+                        height: 0.4,
+                        color: color707070.withOpacity(0.2),
+                      )),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 5, left: 5, top: 3),
+                child: Text(
+                  model.name,
+                  style: textStyleBold(color: color1C1C1C, size: 15),
+                  softWrap: true,
+                  overflow: TextOverflow.fade,
+                ),
+              ),
+              if (model.description != null && model.description.isNotEmpty)
+                Container(
+                    width: width - 5,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 2, right: 2),
+                        child: Text(model.description,
+                            style: textStyleBold(
+                                color: color707070.withOpacity(0.7), size: 10),
+                            softWrap: true,
+                            maxLines: 1,
+                            overflow: TextOverflow.fade))),
+              Column(
+                children: [
+                  Container(
+                      color: gray,
+                      width: width,
+                      padding: EdgeInsets.only(
+                        right: 5,
+                        left: 5,
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text('قیمت :',
+                                style: textStyleBold(
+                                    color: color707070.withOpacity(0.9),
+                                    size: 14)),
+                            Text(
+                                getPrice(model.salePrice, model.price)
+                                    .seRagham()
+                                    .toPersianDigit(),
+                                style:
+                                    textStyleBold(color: color1C1C1C, size: 16),
+                                softWrap: true,
+                                overflow: TextOverflow.fade),
+                          ])),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          width: width - 40,
                           height: 40,
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -731,15 +1028,15 @@ class ProductViewerInList extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Icon(
-                                            FontAwesomeIcons.solidTrashAlt,
-                                            color: colorFFFFFF,
-                                            size: 12,
-                                          ),
+                                          // Icon(
+                                          //   FontAwesomeIcons.solidTrashAlt,
+                                          //   color: colorFFFFFF,
+                                          //   size: 12,
+                                          // ),
                                           Text(
                                             '  انصراف',
                                             style: textStyleBold(
-                                                color: colorFFFFFF, size: 12),
+                                                color: colorFFFFFF, size: 10),
                                           ),
                                         ],
                                       );
@@ -765,309 +1062,35 @@ class ProductViewerInList extends StatelessWidget {
                                     );
                                   }),
                             ],
-                          ))),
-                  GestureDetector(
-                      onTap: () async {
-                        await bloc.categoryControllerBloc
-                            .selectProductToShow(model, isInCategoryView);
-                      },
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: colorCF5A00.withOpacity(0.9),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(4),
-                              //bottomRight: Radius.circular(4)
-                            )),
-                        child: Icon(
-                          FontAwesomeIcons.chevronLeft,
-                          color: colorFFFFFF,
-                          size: 16,
-                        ),
-                      ))
-                ],
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget inPreviewComponent(BuildContext context) {
-    double width = ScreenConfig.vBlocks * 26;
-    double imageWidth = ScreenConfig.vBlocks * 15;
-    return Container(
-      width: width,
-      height: ScreenConfig.vBlocks * 44,
-      decoration: BoxDecoration(
-          color: gray[400],
-          borderRadius: BorderRadius.circular(3),
-          boxShadow: [
-            BoxShadow(color: color000000.withOpacity(0.7), blurRadius: 5)
-          ]),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Stack(
-            children: [
-              if (model.image == null || model.image.isEmpty)
-                Container(
-                    width: width,
-                    child: Center(
-                        child: Container(
-                            width: imageWidth,
-                            height: imageWidth * 1.6,
-                            padding: EdgeInsets.all(5),
+                          )),
+                      GestureDetector(
+                          onTap: () async {
+                            await bloc.categoryControllerBloc
+                                .selectProductToShow(model, isInCategoryView);
+                          },
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                                color: gray[400],
+                                color: colorCF5A00.withOpacity(0.9),
                                 borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(3),
-                                    topRight: Radius.circular(3))),
-                            child: Image.asset(
-                              'assets/images/special.png',
-                              fit: BoxFit.cover,
-                            )))),
-              if (model.image != null || model.image.isNotEmpty)
-                Container(
-                    width: width,
-                    child: Center(
-                        child: Container(
-                            width: imageWidth,
-                            height: imageWidth * 1.6,
-                            decoration: BoxDecoration(
-                                color: gray[400],
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(3),
-                                    topRight: Radius.circular(3))),
-                            child: CachedNetworkImage(
-                              imageUrl: model.image,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) => Center(
-                                      child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            value: downloadProgress.progress,
-                                            backgroundColor: colorFFFFFF,
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                    Color>(gray[200]),
-                                          ))),
-                              errorWidget: (context, url, error) => Image.asset(
-                                'assets/images/special.png',
-                                fit: BoxFit.cover,
-                              ),
-                              fit: BoxFit.contain,
-                            )))),
-              if (productIsInFavoriteList())
-                Positioned(
-                  right: 3,
-                  top: 3,
-                  child: Icon(FontAwesomeIcons.solidHeart,
-                      color: colorFF0000.withOpacity(0.7), size: 10),
-                ),
-              Positioned(
-                  right: 3,
-                  top: 17,
-                  child: InlineOrderView(
-                    bloc: bloc,
-                    model: model,
-                    builder: (ctx, mdl) {
-                      return Icon(FontAwesomeIcons.shoppingBasket,
-                          color: colorFF0000.withOpacity(0.7), size: 10);
-                    },
-                  )),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                        color: colorCF5A00,
-                        borderRadius:
-                            BorderRadius.only(topRight: Radius.circular(3))),
-                    child: Text(
-                        getPrice(model.price, model.salePrice)
-                            .seRagham()
-                            .toPersianDigit(),
-                        style: getStyle()),
-                  )),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                    width: width,
-                    height: 0.4,
-                    color: color707070.withOpacity(0.2),
-                  )),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 3),
-            child: Text(
-              model.name,
-              style: textStyleBold(color: color1C1C1C, size: 15),
-              softWrap: true,
-              overflow: TextOverflow.fade,
-            ),
-          ),
-          if (model.description != null && model.description.isNotEmpty)
-            Container(
-                width: width - 5,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 2, right: 2),
-                    child: Text(model.description,
-                        style: textStyleBold(
-                            color: color707070.withOpacity(0.7), size: 10),
-                        softWrap: true,
-                        maxLines: 1,
-                        overflow: TextOverflow.fade))),
-          Column(
-            children: [
-              Container(
-                  color: gray,
-                  width: width,
-                  padding: EdgeInsets.only(
-                    right: 5,
-                    left: 5,
+                                  bottomLeft: Radius.circular(4),
+                                  //bottomRight: Radius.circular(4)
+                                )),
+                            child: Icon(
+                              FontAwesomeIcons.chevronLeft,
+                              color: colorFFFFFF,
+                              size: 16,
+                            ),
+                          ))
+                    ],
                   ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text('قیمت :',
-                            style: textStyleBold(
-                                color: color707070.withOpacity(0.9), size: 14)),
-                        Text(
-                            getPrice(model.salePrice, model.price)
-                                .seRagham()
-                                .toPersianDigit(),
-                            style: textStyleBold(color: color1C1C1C, size: 16),
-                            softWrap: true,
-                            overflow: TextOverflow.fade),
-                      ])),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                      width: width - 40,
-                      height: 40,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: colorCF5A00,
-                          borderRadius: BorderRadius.only(
-                              // bottomLeft: Radius.circular(4),
-                              bottomRight: Radius.circular(4))),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                              onTap: () async {
-                                if (model.buyCount == null ||
-                                    model.buyCount == 0) {
-                                  model.buyCount = 1;
-                                  await buyProductInLine(model);
-                                } else {
-                                  model.buyCount = 0;
-                                  await buyProductInLine(model);
-                                }
-                              },
-                              child: InlineOrderView(
-                                bloc: bloc,
-                                model: model,
-                                notFoundBuilder: (ctx, mdl) {
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.shoppingBasket,
-                                        color: colorFFFFFF,
-                                        size: 12,
-                                      ),
-                                      Text(
-                                        '  خرید',
-                                        style: textStyleBold(
-                                            color: colorFFFFFF, size: 12),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                builder: (ctx, mdl) {
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.solidTrashAlt,
-                                        color: colorFFFFFF,
-                                        size: 12,
-                                      ),
-                                      Text(
-                                        '  انصراف',
-                                        style: textStyleBold(
-                                            color: colorFFFFFF, size: 12),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              )),
-                          InlineOrderView(
-                              bloc: bloc,
-                              model: model,
-                              builder: (ctx, mdl) {
-                                return NumericUpDown(
-                                  valueChanged: (value) async {
-                                    if (mdl == null) {
-                                      print('model is null');
-                                      return;
-                                    }
-                                    mdl.buyCount = value;
-                                    await buyProductInLine(mdl);
-                                  },
-                                  color: colorFFFFFF,
-                                  fontSize: 14,
-                                  allowLongTap: false,
-                                  initValue: mdl.buyCount,
-                                );
-                              }),
-                        ],
-                      )),
-                  GestureDetector(
-                      onTap: () async {
-                        await bloc.categoryControllerBloc
-                            .selectProductToShow(model, isInCategoryView);
-                      },
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: colorCF5A00.withOpacity(0.9),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(4),
-                              //bottomRight: Radius.circular(4)
-                            )),
-                        child: Icon(
-                          FontAwesomeIcons.chevronLeft,
-                          color: colorFFFFFF,
-                          size: 16,
-                        ),
-                      ))
                 ],
-              ),
+              )
             ],
-          )
-        ],
-      ),
-    );
+          ),
+        ));
   }
 
   String getPrice(double value, double value2) {
