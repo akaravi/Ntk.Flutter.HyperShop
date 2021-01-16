@@ -3,6 +3,7 @@ import 'package:hypertools/bloc/main_user_bloc.dart';
 import 'package:hypertools/poco/screen_config.dart';
 import 'package:hypertools/theme/theme.dart';
 import 'package:ota_update/ota_update.dart';
+import 'package:hypertools/widgets/qButton.dart';
 
 import 'accept_terms.dart';
 import 'home_page.dart';
@@ -98,7 +99,7 @@ class _UpdateProgramState extends State<UpdateProgram> {
     ScreenConfig().init(context);
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        backgroundColor: color000F25,
+        backgroundColor: color1C1C1C,
         body: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -166,43 +167,41 @@ class _UpdateProgramState extends State<UpdateProgram> {
                     SizedBox(
                       height: 70,
                     ),
-                    // if (updateAppIsStarted == false)
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Text(
+                      (currentEvent == null || currentEvent.status == null
+                          ? ' '
+                          : eventStatus +
+                              (currentEvent.value == null
+                                  ? ''
+                                  : " : " + currentEvent.value)),
+                      softWrap: true,
+                      style: textStyleBold(size: 13, color: colorCF5A00),
+                    ),
                     rowWithFree(
-                      centerSize: 4,
-                      center: GestureDetector(
-                          onTap: () async {
+                        centerSize: 4,
+                        center: QButton(
+                          onClick: () {
                             if (updateAppIsStarted == false) tryOtaUpdate();
                           },
-                          child: Opacity(
-                              opacity: (updateAppIsStarted ? 0.6 : 1),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: color257EEA,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 20, right: 20, top: 10, bottom: 10),
-                                  child: Center(
-                                      child: Text(
-                                    (updateAppHasError
-                                        ? ' تلاش مجدد '
-                                        : updateAppIsStarted
-                                            ? 'لطفاَ شکیبا باشید'
-                                            : 'شروع نصب '),
-                                    style: textStyleBold(
-                                        color: colorFFFFFF, size: 13),
-                                  )),
-                                ),
-                              ))),
-                    ),
+                          color: colorCF5A00,
+                          isEnabled: !updateAppIsStarted,
+                          child: Text(
+                            (updateAppHasError
+                                ? ' تلاش مجدد '
+                                : updateAppIsStarted
+                                    ? 'لطفاَ شکیبا باشید'
+                                    : 'شروع نصب '),
+                            style: textStyleBold(color: colorFFFFFF, size: 13),
+                          ),
+                        )),
                     if (widget.bloc.updateAppBloc.model.forceUpdate == false)
                       Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
                     if (widget.bloc.updateAppBloc.model.forceUpdate == false)
                       rowWithFree(
-                        centerSize: 4,
-                        center: GestureDetector(
-                            onTap: () {
+                          centerSize: 4,
+                          center: QButton(
+                            onClick: () {
                               if (updateAppIsStarted) return;
                               if (widget.openFromDrawer) {
                                 Navigator.of(context).pop();
@@ -231,45 +230,21 @@ class _UpdateProgramState extends State<UpdateProgram> {
                                             RouteSettings(name: 'Home Page')));
                               }
                             },
-                            child: Opacity(
-                                opacity: (updateAppIsStarted ? 0.6 : 1),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      // color: colorCF5A00,
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: blue[50])),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 10,
-                                        bottom: 10),
-                                    child: Center(
-                                        child: Text(
-                                      'صرفنظر از نسخه جدید',
-                                      style: textStyleBold(
-                                          color: colorFFFFFF, size: 13),
-                                    )),
-                                  ),
-                                ))),
-                      ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    Text(
-                      (currentEvent == null || currentEvent.status == null
-                          ? '. '
-                          : eventStatus +
-                              (currentEvent.value == null
-                                  ? ''
-                                  : " : " + currentEvent.value)),
-                      softWrap: true,
-                      style: textStyleBold(size: 13, color: colorCF5A00),
-                    ),
+                            color: color000000,
+                            child: Text(
+                              'صرفنظر از نسخه جدید',
+                              style:
+                                  textStyleBold(color: colorFFFFFF, size: 13),
+                            ),
+                            isEnabled: !updateAppIsStarted,
+                          )),
                   ],
                 ),
               ),
               if (updateAppIsStarted)
                 LinearProgressIndicator(
-                  backgroundColor: colorBABABA,
+                  backgroundColor: color1C1C1C,
+                  valueColor: AlwaysStoppedAnimation<Color>(colorCF5A00),
                 ),
               if (updateAppIsStarted == false)
                 Container(

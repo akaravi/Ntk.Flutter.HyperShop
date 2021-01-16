@@ -8,6 +8,7 @@ import 'package:hypertools/views/home_page.dart';
 import 'package:hypertools/widgets/awesome_dialog/awesome_dialog.dart';
 import 'package:hypertools/widgets/button_with_loading.dart';
 import 'package:hypertools/widgets/captcha_viewer.dart';
+import 'package:hypertools/widgets/qButton.dart';
 
 class UserRegister extends StatefulWidget {
   final MainUserBloc bloc;
@@ -59,14 +60,14 @@ class _UserRegisterState extends State<UserRegister>
     if (widget.bloc.captchaBloc.model == null)
       widget.bloc.captchaBloc.refreshCaptcha();
     return Scaffold(
-        backgroundColor: color000F25,
+        backgroundColor: color1C1C1C,
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
               width: ScreenConfig.width,
               height: ScreenConfig.height,
               padding: topBasePaddingEdge(),
-              color: color000F25,
+              color: color1C1C1C,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +107,7 @@ class _UserRegisterState extends State<UserRegister>
       margin: EdgeInsets.only(bottom: 25),
       child: Text(
         'ورود کاربر',
-        style: textStyleRegular(color: colorFFFFFF, size: 18),
+        style: textStyleBold(color: blue[100], size: 16),
       ),
     ));
   }
@@ -183,7 +184,7 @@ class _UserRegisterState extends State<UserRegister>
               controller: usernameController,
               autocorrect: false,
               keyboardType: TextInputType.phone,
-              style: textStyleNumberBold(color: white[50], size: 14),
+              style: textStyleNumberBold(color: white[50], size: 13),
               decoration: usernameDecoration(
                   errorText: (snapshot.hasError ? snapshot.error : null)),
               onChanged: (value) {
@@ -200,40 +201,25 @@ class _UserRegisterState extends State<UserRegister>
 
   Widget sendSmsButton(BuildContext context) {
     return Column(children: <Widget>[
-      rowWithFree(
-          centerSize: 4,
-          center: ButtonWithLoading(
-              loadingStream: widget.bloc.loadingIndicator.stream,
-              isEnabledStream: widget.bloc.loginButtonIsEnabled.stream,
-              onTap: () async {
-                FocusScope.of(context).unfocus();
-                await widget.bloc.createMemberUser();
-              },
-              progrss: CircularProgressIndicator(),
-              normalOpacity: 1,
-              progressOpacity: 0.5,
-              child: Row(children: [
-                Expanded(
-                  child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: colorBlueMiddle,
-                      ),
-                      padding: EdgeInsets.all(15),
-                      child: Center(
-                          child: StreamBuilder(
-                        stream: widget.bloc.loginButtonIsEnabled.stream,
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          Color textColor = gray[50];
-                          if (snapshot.hasData) textColor = white[50];
-                          return Text('ارسال پیامک صحت سنجی',
-                              style: textStyleBold(color: textColor, size: 15));
-                        },
-                      ))),
-                )
-              ]))),
+      StreamBuilder(
+        stream: widget.bloc.loginButtonIsEnabled.hasValueStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          bool isEnabled = false;
+          if (snapshot.hasData) isEnabled = snapshot.data;
+          return rowWithFree(
+              centerSize: 4,
+              center: QButton(
+                color: colorCF5A00,
+                isEnabled: isEnabled,
+                child: Text('ارسال پیامک صحت سنجی',
+                    style: textStyleBold(color: colorFFFFFF, size: 13)),
+                onClick: () async {
+                  FocusScope.of(context).unfocus();
+                  await widget.bloc.createMemberUser();
+                },
+              ));
+        },
+      ),
       Padding(
         padding: EdgeInsets.only(top: 5),
       ),
@@ -242,39 +228,24 @@ class _UserRegisterState extends State<UserRegister>
 
   Widget enterUserButton(BuildContext context) {
     return Column(children: <Widget>[
-      rowWithFree(
-          centerSize: 4,
-          center: ButtonWithLoading(
-              loadingStream: widget.bloc.loadingIndicator.stream,
-              isEnabledStream: widget.bloc.userSmsEntered.hasValueStream,
-              onTap: () async {
-                enterUser(context);
-              },
-              progrss: CircularProgressIndicator(),
-              normalOpacity: 1,
-              progressOpacity: 0.5,
-              child: Row(children: [
-                Expanded(
-                  child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: colorBlueMiddle,
-                      ),
-                      padding: EdgeInsets.all(15),
-                      child: Center(
-                          child: StreamBuilder(
-                        stream: widget.bloc.userSmsEntered.hasValueStream,
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          Color textColor = gray[50];
-                          if (snapshot.hasData) textColor = white[50];
-                          return Text('ورود به برنامه',
-                              style: textStyleBold(color: textColor, size: 15));
-                        },
-                      ))),
-                )
-              ]))),
+      StreamBuilder(
+        stream: widget.bloc.userSmsEntered.hasValueStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          bool isEnabled = false;
+          if (snapshot.hasData) isEnabled = snapshot.data;
+          return rowWithFree(
+              centerSize: 4,
+              center: QButton(
+                color: colorCF5A00,
+                isEnabled: isEnabled,
+                child: Text('ورود به برنامه',
+                    style: textStyleBold(color: colorFFFFFF, size: 13)),
+                onClick: () async {
+                  await enterUser(context);
+                },
+              ));
+        },
+      ),
       Padding(
         padding: EdgeInsets.only(top: 5),
       ),
@@ -287,23 +258,23 @@ class _UserRegisterState extends State<UserRegister>
         center: CaptchaViewer(
           boxDecoration: BoxDecoration(
             border: Border.all(
-              color: colorBlueLight[100],
+              color: colorCF5A00,
               width: 0.8,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
           buttonBoxDecoration: BoxDecoration(
             border: Border.all(
-              color: colorBlueLight[100],
-              width: 0.3,
+              color: color1C1C1C,
+              width: 0,
             ),
-            color: colorBlueMiddle.withOpacity(0.5),
+            color: colorCF5A00,
             borderRadius: BorderRadius.circular(10),
           ),
-          textStyle: textStyleNumberBold(color: white[50], size: 14),
-          errorTextStyle:
-              textStyleRegular(color: colorBlueLight[100], size: 11),
+          textStyle: textStyleNumberBold(color: colorFFFFFF, size: 13),
+          errorTextStyle: textStyleRegular(color: colorBABABA, size: 11),
           bloc: widget.bloc.captchaBloc,
+          height: 46,
           focusNode: _captchaFocudNode,
           onEditingComplete: () {
             FocusScope.of(ctx).unfocus();
@@ -385,34 +356,27 @@ class _UserRegisterState extends State<UserRegister>
           Padding(
             padding: EdgeInsets.only(top: 10),
           ),
-          GestureDetector(
-            onTap: () {
-              if (widget.openFromDrawer || widget.openFromOrder) {
-                Navigator.of(ctx).pop();
-                return;
-              }
-              Navigator.pushReplacement(
-                  ctx,
-                  MaterialPageRoute(
-                      builder: (context) => HomePage(bloc: widget.bloc),
-                      settings: RouteSettings(name: 'Home Page')));
-            },
-            child: Center(
-              child: Container(
-                  padding:
-                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: blue[50], width: 0.6),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Text(
+          rowWithFree(
+              centerSize: 4,
+              center: QButton(
+                color: color000000,
+                child: Text(
                     ((widget.openFromDrawer != null && widget.openFromOrder)
                         ? ' بازگشت    '
                         : 'صرف نظر از وارد کردن شماره موبایل'),
-                    textAlign: TextAlign.center,
-                    style: textStyleBold(size: 14, color: white),
-                  )),
-            ),
-          )
+                    style: textStyleBold(color: colorFFFFFF, size: 12)),
+                onClick: () {
+                  if (widget.openFromDrawer || widget.openFromOrder) {
+                    Navigator.of(ctx).pop();
+                    return;
+                  }
+                  Navigator.pushReplacement(
+                      ctx,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(bloc: widget.bloc),
+                          settings: RouteSettings(name: 'Home Page')));
+                },
+              )),
         ],
       ),
     );

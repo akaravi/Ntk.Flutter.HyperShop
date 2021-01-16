@@ -6,6 +6,7 @@ import 'package:hypertools/poco/database_local.dart';
 import 'package:hypertools/poco/screen_config.dart';
 import 'package:hypertools/theme/theme.dart';
 import 'package:hypertools/widgets/circular_checkbox.dart';
+import 'package:hypertools/widgets/qButton.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'user_register.dart';
@@ -23,7 +24,7 @@ class AcceptTerms extends StatelessWidget {
       child: Container(
         width: ScreenConfig.hBlocks * 100,
         height: ScreenConfig.vBlocks * 100,
-        color: color000F25,
+        color: color1C1C1C,
         child: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,13 +41,14 @@ class AcceptTerms extends StatelessWidget {
 
   Widget logoImage(BuildContext context) {
     return Container(
-        width: ScreenConfig.hBlocks * 100,
+        width: ScreenConfig.width,
         height: ScreenConfig.vBlocks * 55,
+        color: color1C1C1C,
         margin: EdgeInsets.only(
             top: topBasePaddingValue, bottom: topBasePaddingValue),
         child: Stack(children: <Widget>[
           Image.asset(
-            'assets/images/splash_image.png',
+            'assets/images/login_image.png',
             fit: BoxFit.cover,
           ),
           Padding(
@@ -54,7 +56,7 @@ class AcceptTerms extends StatelessWidget {
               child: Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
-                    color: color000F25,
+                    color: color1C1C1C,
                     child: Text(
                       acceptTermDescription,
                       style: textStyleMedium(color: colorBABABA, size: 12),
@@ -66,6 +68,7 @@ class AcceptTerms extends StatelessWidget {
 
   Widget termCondition(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(right: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -80,7 +83,7 @@ class AcceptTerms extends StatelessWidget {
                       .changeValue(!bloc.acceptTermAndCondition.lastValue);
                 },
                 child: Text('کلیه قوانین و مقررات را خوانده و می پذیرم ',
-                    style: textStyleRegular(color: colorFFFFFF, size: 13)),
+                    style: textStyleRegular(color: colorFFFFFF, size: 12)),
               ),
               readtermConditionButton(context)
             ],
@@ -93,16 +96,7 @@ class AcceptTerms extends StatelessWidget {
   Widget readtermConditionButton(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          //Navigator.push(context,
-          //  MaterialPageRoute(builder: (context) => UserPrivacyTerm(),settings: RouteSettings(name: 'Privacy Term')));
-          if (Platform.isIOS) {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => Educational()),
-            // );
-          } else {
-            launch(privacyTermUrl);
-          }
+          launch(privacyTermUrl);
         },
         child: Container(
           height: 30,
@@ -155,67 +149,26 @@ class AcceptTerms extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.acceptTermAndCondition.stream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData && snapshot.data) {
-          return GestureDetector(
-            onTap: () async {
-              await LocalDatabase.setBool(
-                  LocalDatabase.termAndConditionSettedKey, true);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => UserRegister(bloc: bloc),
-                      settings: RouteSettings(name: 'User Register')));
-            },
-            child: Center(
-              child: Container(
-                width: heightPercentage(700),
-                height: heightPercentage(350),
-                decoration: BoxDecoration(
-                    color: color000F25,
-                    border: Border.all(color: color808080),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: color257EEA.withOpacity(.25),
-                        offset: Offset(0, 0),
-                        blurRadius: widthPercentage(100),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(heightPercentage(50))),
-                child: Center(
-                  child: enterTextWithLoading(),
-                ),
-              ),
-            ),
-          );
-        }
-        return Center(
-          child: Container(
-            width: heightPercentage(700),
-            height: heightPercentage(350),
-            decoration: BoxDecoration(
-                color: color000F25,
-                border: Border.all(color: color333333),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: color1C1C1C.withOpacity(.45),
-                    offset: Offset(0, 0),
-                    blurRadius: widthPercentage(100),
-                  )
-                ],
-                borderRadius: BorderRadius.circular(heightPercentage(50))),
-            child: Center(
-              child: Stack(
-                children: [
-                  Center(
-                    child: Text('ورود',
-                        textAlign: TextAlign.center,
-                        style: textStyleBold(color: color808080, size: 20)),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        bool isEnabled = false;
+        if (snapshot.hasData) isEnabled = snapshot.data;
+        return rowWithFree(
+            centerSize: 4,
+            center: QButton(
+              isEnabled: isEnabled,
+              color: colorCF5A00,
+              onClick: () async {
+                //         await LocalDatabase.setBool(
+                // LocalDatabase.termAndConditionSettedKey, true);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UserRegister(bloc: bloc),
+                        settings: RouteSettings(name: 'User Register')));
+              },
+              disabledTextToast: 'قبول قوانین و مقررات الزامی است',
+              child: Text('ورود',
+                  style: textStyleBold(color: colorFFFFFF, size: 13)),
+            ));
       },
     );
   }

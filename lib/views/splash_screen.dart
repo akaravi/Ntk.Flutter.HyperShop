@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hypertools/bloc/main_user_bloc.dart';
 import 'package:hypertools/poco/ErrorExceptionResultBase.dart';
 import 'package:hypertools/poco/screen_config.dart';
 import 'package:hypertools/theme/theme.dart';
 import 'package:hypertools/views/accept_terms.dart';
 import 'package:hypertools/views/update_program.dart';
-
+import 'package:hypertools/widgets/qButton.dart';
 import 'home_page.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -66,7 +67,7 @@ class SplashScreen extends StatelessWidget {
         });
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor: color000F25,
+      backgroundColor: color1C1C1C,
       body: StreamBuilder(
         stream: bloc.notConnectedToInternet.stream,
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -83,6 +84,15 @@ class SplashScreen extends StatelessWidget {
                   Center(
                     child: Column(
                       children: <Widget>[
+                        Container(
+                          width: ScreenConfig.hBlocks * 15,
+                          height: ScreenConfig.hBlocks * 15,
+                          child: Image.asset('assets/images/alert.png',
+                              fit: BoxFit.fill),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           'خطایی اتفاق افتاد !',
                           style: textStyleBold(size: 14, color: colorFFFFFF),
@@ -91,33 +101,26 @@ class SplashScreen extends StatelessWidget {
                           height: 7,
                         ),
                         Text(
-                          snapshot.data,
+                          (snapshot.data != null ? snapshot.data : ''),
                           style: textStyleRegular(size: 11, color: colorBABABA),
                         ),
                         SizedBox(
                           height: 7,
                         ),
                         Center(
-                          child: GestureDetector(
-                              onTap: () {
-                                bloc.initializeData();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: color257EEA,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 20, right: 20, top: 10, bottom: 10),
+                            child: rowWithFree(
+                                centerSize: 3,
+                                center: QButton(
+                                  onClick: () {
+                                    bloc.initializeData();
+                                  },
+                                  color: colorCF5A00,
                                   child: Text(
                                     'تلاش مجدد',
                                     style: textStyleBold(
                                         color: colorFFFFFF, size: 13),
                                   ),
-                                ),
-                              )),
-                        )
+                                )))
                       ],
                     ),
                   ),
@@ -138,6 +141,13 @@ class SplashScreen extends StatelessWidget {
                 Center(
                   child: Column(
                     children: <Widget>[
+                      SpinKitFadingGrid(
+                        color: colorCF5A00,
+                        size: 24,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Text(
                         'لطفاَ کمی صبر کنید',
                         style: textStyleBold(size: 14, color: colorFFFFFF),
@@ -147,13 +157,14 @@ class SplashScreen extends StatelessWidget {
                       ),
                       Text(
                         'در حال چک کردن اطلاعات ضروری',
-                        style: textStyleRegular(size: 11, color: colorBABABA),
+                        style: textStyleRegular(size: 12, color: colorBABABA),
                       ),
                     ],
                   ),
                 ),
                 LinearProgressIndicator(
-                  backgroundColor: Colors.grey[300],
+                  backgroundColor: color1C1C1C,
+                  valueColor: AlwaysStoppedAnimation<Color>(colorCF5A00),
                 ),
               ],
             ),

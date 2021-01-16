@@ -288,29 +288,41 @@ TextStyle textStyleNumberBold({Color color, double size}) {
 }
 
 InputDecoration usernameDecoration({String errorText = ''}) {
-  return InputDecoration(
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(
-        color: colorBlueLight[100],
-        width: 0.8,
-        style: BorderStyle.solid,
-      ),
-      //gapPadding: ThemeColor.getPercentageDisplayWidth(5)
+  var border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: BorderSide(
+      color: colorCF5A00.withOpacity(0.7),
+      width: 0.8,
+      style: BorderStyle.solid,
     ),
+    //gapPadding: ThemeColor.getPercentageDisplayWidth(5)
+  );
+  var focusBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: BorderSide(
+      color: colorCF5A00,
+      width: 1,
+      style: BorderStyle.solid,
+    ),
+    //gapPadding: ThemeColor.getPercentageDisplayWidth(5)
+  );
+  return InputDecoration(
+    border: border,
     contentPadding: EdgeInsets.only(left: 15, top: 5, right: 0, bottom: 5),
     suffixIcon: Icon(
       FontAwesomeIcons.mobileAlt,
-      color: colorBlueLight[100],
+      color: colorBABABA,
       size: 20,
     ),
-    enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: colorBlueLight[200], width: 0.8)),
+    enabledBorder: border,
+    disabledBorder: border,
+    errorBorder: border,
+    focusedBorder: focusBorder,
+    focusedErrorBorder: focusBorder,
     hintText: '   شماره موبایل خود را وارد کنید',
-    hintStyle: textStyleRegular(color: colorBlueLight[100], size: 14),
+    hintStyle: textStyleRegular(color: colorBABABA, size: 12),
     errorText: errorText,
-    errorStyle: textStyleRegular(color: colorBlueLight[100], size: 11),
+    errorStyle: textStyleRegular(color: colorBABABA, size: 10),
   );
 }
 
@@ -344,29 +356,41 @@ InputDecoration productNameDecoration({String errorText = ''}) {
 }
 
 InputDecoration smsDataDecoration({String errorText = ''}) {
-  return InputDecoration(
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(
-        color: colorBlueLight[100],
-        width: 0.8,
-        style: BorderStyle.solid,
-      ),
-      //gapPadding: ThemeColor.getPercentageDisplayWidth(5)
+  var border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: BorderSide(
+      color: colorCF5A00.withOpacity(0.7),
+      width: 0.8,
+      style: BorderStyle.solid,
     ),
+    //gapPadding: ThemeColor.getPercentageDisplayWidth(5)
+  );
+  var focusBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: BorderSide(
+      color: colorCF5A00,
+      width: 1,
+      style: BorderStyle.solid,
+    ),
+    //gapPadding: ThemeColor.getPercentageDisplayWidth(5)
+  );
+  return InputDecoration(
+    border: border,
     contentPadding: EdgeInsets.only(left: 15, top: 5, right: 0, bottom: 5),
     suffixIcon: Icon(
-      FontAwesomeIcons.mobileAlt,
-      color: colorBlueLight[100],
+      FontAwesomeIcons.sms,
+      color: colorBABABA,
       size: 20,
     ),
-    enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: colorBlueLight[200], width: 0.8)),
-    hintText: '   متن عددی پیامک دریافت شده را وارد کنید',
-    hintStyle: textStyleRegular(color: colorBlueLight[100], size: 14),
+    enabledBorder: border,
+    disabledBorder: border,
+    errorBorder: border,
+    focusedBorder: focusBorder,
+    focusedErrorBorder: focusBorder,
+    hintText: '   متن پیامک دریافت شده',
+    hintStyle: textStyleRegular(color: colorBABABA, size: 12),
     errorText: errorText,
-    errorStyle: textStyleRegular(color: colorBlueLight[100], size: 11),
+    errorStyle: textStyleRegular(color: colorBABABA, size: 10),
   );
 }
 
@@ -414,7 +438,7 @@ InputDecoration captchaDecoration({String errorText = ''}) {
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(color: Colors.transparent, width: 0.8)),
     hintText: '   کد روبرو',
-    hintStyle: textStyleRegular(color: colorBlueLight[100], size: 14),
+    hintStyle: textStyleRegular(color: colorBABABA, size: 13),
   );
 }
 

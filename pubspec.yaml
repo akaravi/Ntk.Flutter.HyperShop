@@ -35,6 +35,8 @@ dependencies:
   flutter_rating_bar: ^3.2.0+1
   persian_number_utility: ^0.2.6
   like_button: ^1.0.4
+  flutter_spinkit: ^4.1.2+1
+  fluttertoast: ^7.1.6
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +48,13 @@ flutter:
     - assets/
     - assets/images/
     - assets/font/
+  fonts:
+    - family: Vazir
+      fonts:
+        - asset: assets/font/Vazir.ttf
+    - family: Samin
+      fonts:
+        - asset: assets/font/Samim.ttf
 
 flutter_icons:
   android: "launcher_icon"
@@ -58,19 +67,3 @@ flutter_native_splash:
   color: "000f25"
 
 
-  
-fonts:
-    - family: Vazir
-      fonts:
-        - asset: assets/font/Vazir.ttf
-        - asset: assets/font/Vazir-Bold.ttf
-        - asset: assets/font/Vazir-Medium.ttf
-        - asset: assets/font/Vazir-Light.ttf
-        - asset: assets/font/Vazir-Thin.ttf
-    - family: Vazirfd
-      fonts:
-        - asset: assets/font/Vazir-Bold-FD-WOL.ttf
-        # - asset: assets/font/Vazir-FD-WOL.ttf
-        # - asset: assets/font/Vazir-Medium-FD-WOL.ttf
-        # - asset: assets/font/Vazir-Light-FD-WOL.ttf
-        # - asset: assets/font/Vazir-Thin-FD-WOL.ttf
