@@ -39,13 +39,13 @@ class CaptchaViewer extends StatelessWidget {
         var bx = boxDecoration;
         bool hasError = false;
         String err = 'خطا در کد امنیتی';
-        // if (snapshot.hasError &&
-        //     snapshot.error != null &&
-        //     snapshot.error.toString() != '') {
-        if (errorBoxDecoration != null) bx = errorBoxDecoration;
-        hasError = true;
-        // err = snapshot.error.toString();
-        // }
+        if (snapshot.hasError &&
+            snapshot.error != null &&
+            snapshot.error.toString() != '') {
+          if (errorBoxDecoration != null) bx = errorBoxDecoration;
+          hasError = true;
+          err = snapshot.error.toString();
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

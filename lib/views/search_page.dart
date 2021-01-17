@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hypertools/apis/models/cmsModels/hyperShop/hyperShopContentModel.dart';
 import 'package:hypertools/bloc/main_user_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:hypertools/poco/errorExceptionResult.dart';
 import 'package:hypertools/poco/screen_config.dart';
 import 'package:hypertools/theme/theme.dart';
 import 'package:hypertools/widgets/product_viewer_in_list.dart';
+import 'package:hypertools/widgets/qButton.dart';
 
 class SearchPage extends StatefulWidget {
   final MainUserBloc bloc;
@@ -66,7 +68,17 @@ class _SearchPageState extends State<SearchPage> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(child: productNameStream()),
+                Expanded(
+                    child: Container(
+                        height: 49,
+                        width: 49,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: color1C1C1C, width: 1),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(3),
+                              bottomRight: Radius.circular(3)),
+                        ),
+                        child: productNameStream())),
                 GestureDetector(
                   onTap: () async {
                     await searchProducts();
@@ -107,8 +119,10 @@ class _SearchPageState extends State<SearchPage> {
         if (snapshot.hasData) data = snapshot.data;
         if (data)
           return Center(
-            child: SizedBox(
-                width: 20, height: 20, child: CircularProgressIndicator()),
+            child: SpinKitFadingGrid(
+              color: colorCF5A00,
+              size: 24,
+            ),
           );
         return showSearchResult(widget.bloc.lastSearchResult);
       },
@@ -123,31 +137,24 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             Text(
               err.errorMessage,
-              style: textStyleRegular(size: 11, color: colorBABABA),
+              style: textStyleRegular(size: 11, color: color1C1C1C),
             ),
             SizedBox(
               height: 7,
             ),
             Center(
-              child: GestureDetector(
-                  onTap: () async {
-                    await searchProducts();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: color257EEA,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 20, right: 20, top: 10, bottom: 10),
+                child: rowWithFree(
+                    centerSize: 4,
+                    center: QButton(
                       child: Text(
                         'تلاش مجدد',
                         style: textStyleBold(color: colorFFFFFF, size: 13),
                       ),
-                    ),
-                  )),
-            )
+                      color: colorCF5A00,
+                      onClick: () async {
+                        await searchProducts();
+                      },
+                    ))),
           ],
         ),
       );
@@ -193,7 +200,7 @@ class _SearchPageState extends State<SearchPage> {
       children: [
         Text(
           str,
-          style: textStyleBold(color: colorBABABA, size: 13),
+          style: textStyleBold(color: color1C1C1C, size: 13),
           softWrap: true,
         ),
         Padding(
@@ -210,25 +217,17 @@ class _SearchPageState extends State<SearchPage> {
             padding: EdgeInsets.only(top: 10),
           ),
         Center(
-            child: GestureDetector(
-                onTap: () async {
-                  await searchProducts();
-                },
-                child: Container(
-                  width: 140,
-                  decoration: BoxDecoration(
-                    color: color257EEA,
-                    borderRadius: BorderRadius.circular(10),
+            child: rowWithFree(
+                centerSize: 4,
+                center: QButton(
+                  child: Text(
+                    'تلاش مجدد',
+                    style: textStyleBold(color: colorFFFFFF, size: 13),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 20, right: 20, top: 10, bottom: 10),
-                    child: Center(
-                        child: Text(
-                      ' تلاش مجدد ',
-                      style: textStyleBold(color: colorFFFFFF, size: 13),
-                    )),
-                  ),
+                  color: colorCF5A00,
+                  onClick: () async {
+                    await searchProducts();
+                  },
                 ))),
       ],
     ));

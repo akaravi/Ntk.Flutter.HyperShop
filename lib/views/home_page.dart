@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     if (Scaffold.hasDrawer(context)) Navigator.of(context).pop();
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: color000F25,
+      backgroundColor: colorFFFFFF,
       drawer: AppDrawerMenu(
         bloc: widget.bloc,
       ),
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         confineInSafeArea: true,
         backgroundColor: color1C1C1C,
         handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         stateManagement: true,
         navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
             ? 0.0
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget getScreen(BuildContext ctx, Widget child) {
     return Container(
-      color: color000F25,
+      color: colorFFFFFF,
       padding: EdgeInsets.only(bottom: 57),
       child: Container(
           // padding: EdgeInsets.only(top: 10, bottom: 10),

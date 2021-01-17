@@ -57,6 +57,15 @@ class SplashScreen extends StatelessWidget {
     }
   }
 
+  Widget logoImage(BuildContext ctx) {
+    return Container(
+      child: Image.asset(
+        'assets/images/login_image.png',
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     FocusScope.of(context).unfocus();
@@ -72,102 +81,97 @@ class SplashScreen extends StatelessWidget {
         stream: bloc.notConnectedToInternet.stream,
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData && snapshot.data.isNotEmpty) {
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          width: ScreenConfig.hBlocks * 15,
-                          height: ScreenConfig.hBlocks * 15,
-                          child: Image.asset('assets/images/alert.png',
-                              fit: BoxFit.fill),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'خطایی اتفاق افتاد !',
-                          style: textStyleBold(size: 14, color: colorFFFFFF),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Text(
-                          (snapshot.data != null ? snapshot.data : ''),
-                          style: textStyleRegular(size: 11, color: colorBABABA),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Center(
-                            child: rowWithFree(
-                                centerSize: 3,
-                                center: QButton(
-                                  onClick: () {
-                                    bloc.initializeData();
-                                  },
-                                  color: colorCF5A00,
-                                  child: Text(
-                                    'تلاش مجدد',
-                                    style: textStyleBold(
-                                        color: colorFFFFFF, size: 13),
-                                  ),
-                                )))
-                      ],
-                    ),
-                  ),
-                  Container(),
-                ],
-              ),
-            );
-          }
-          return Center(
-            child: Column(
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
+                logoImage(context),
                 SizedBox(
                   height: 10,
                 ),
                 Center(
                   child: Column(
                     children: <Widget>[
-                      SpinKitFadingGrid(
-                        color: colorCF5A00,
-                        size: 24,
+                      Container(
+                        width: ScreenConfig.hBlocks * 15,
+                        height: ScreenConfig.hBlocks * 15,
+                        child: Image.asset('assets/images/alert.png',
+                            fit: BoxFit.fill),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       Text(
-                        'لطفاَ کمی صبر کنید',
+                        'خطایی اتفاق افتاد !',
                         style: textStyleBold(size: 14, color: colorFFFFFF),
                       ),
                       SizedBox(
                         height: 7,
                       ),
                       Text(
-                        'در حال چک کردن اطلاعات ضروری',
-                        style: textStyleRegular(size: 12, color: colorBABABA),
+                        (snapshot.data != null ? snapshot.data : ''),
+                        style: textStyleRegular(size: 11, color: colorBABABA),
                       ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Center(
+                          child: rowWithFree(
+                              centerSize: 3,
+                              center: QButton(
+                                onClick: () {
+                                  bloc.initializeData();
+                                },
+                                color: colorCF5A00,
+                                child: Text(
+                                  'تلاش مجدد',
+                                  style: textStyleBold(
+                                      color: colorFFFFFF, size: 13),
+                                ),
+                              )))
                     ],
                   ),
                 ),
-                LinearProgressIndicator(
-                  backgroundColor: color1C1C1C,
-                  valueColor: AlwaysStoppedAnimation<Color>(colorCF5A00),
-                ),
+                Container(),
               ],
-            ),
+            );
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              logoImage(context),
+              Center(
+                child: Column(
+                  children: <Widget>[
+                    SpinKitFadingGrid(
+                      color: colorCF5A00,
+                      size: 24,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'لطفاَ کمی صبر کنید',
+                      style: textStyleBold(size: 14, color: colorFFFFFF),
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    Text(
+                      'در حال چک کردن اطلاعات ضروری',
+                      style: textStyleRegular(size: 12, color: colorBABABA),
+                    ),
+                  ],
+                ),
+              ),
+              LinearProgressIndicator(
+                backgroundColor: color1C1C1C,
+                valueColor: AlwaysStoppedAnimation<Color>(colorCF5A00),
+              ),
+            ],
           );
         },
       ),

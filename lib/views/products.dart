@@ -195,7 +195,7 @@ class _ProductPageState extends State<ProductPage>
           height: 20,
           child: CircularProgressIndicator(
             backgroundColor: colorFFFFFF,
-            valueColor: new AlwaysStoppedAnimation<Color>(colorBABABA),
+            valueColor: new AlwaysStoppedAnimation<Color>(colorCF5A00),
           ),
         ),
         Padding(

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hypertools/apis/models/cmsModels/hyperShop/hyperShopContentModel.dart';
 import 'package:hypertools/bloc/main_user_bloc.dart';
@@ -260,35 +261,8 @@ class ProductViewerInList extends StatelessWidget {
                                             width: imageWidth,
                                             height: imageHeight,
                                             padding: EdgeInsets.all(5),
-                                            child: CachedNetworkImage(
-                                                imageUrl: model.image,
-                                                progressIndicatorBuilder: (context,
-                                                        url,
-                                                        downloadProgress) =>
-                                                    Center(
-                                                        child: SizedBox(
-                                                            width: 20,
-                                                            height: 20,
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              value:
-                                                                  downloadProgress
-                                                                      .progress,
-                                                              backgroundColor:
-                                                                  colorFFFFFF,
-                                                              valueColor:
-                                                                  new AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                      gray[
-                                                                          200]),
-                                                            ))),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Image.asset(
-                                                          'assets/images/special.png',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                fit: BoxFit.contain))),
+                                            child: getCachedNetworkImage(
+                                                size: 30.0))),
                                   Positioned(
                                       left: 20,
                                       bottom: 15,
@@ -322,7 +296,9 @@ class ProductViewerInList extends StatelessWidget {
                                           overflow: TextOverflow.fade,
                                         ),
                                         NumericUpDown(
-                                          initValue: model.buyCount,
+                                          initValue: (model.buyCount == null
+                                              ? 0
+                                              : model.buyCount),
                                           valueChanged: (value) {
                                             model.buyCount = value;
                                           },
@@ -524,6 +500,22 @@ class ProductViewerInList extends StatelessWidget {
         ));
   }
 
+  Widget getCachedNetworkImage({double size = 22.0}) {
+    return CachedNetworkImage(
+      imageUrl: model.image,
+      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+          child: SpinKitRipple(
+        color: colorCF5A00,
+        size: size,
+      )),
+      errorWidget: (context, url, error) => Image.asset(
+        'assets/images/special.png',
+        fit: BoxFit.cover,
+      ),
+      fit: BoxFit.contain,
+    );
+  }
+
   Widget inCategoryComponent(BuildContext context) {
     double imageWidth = ScreenConfig.vBlocks * 15;
     return GestureDetector(
@@ -573,29 +565,7 @@ class ProductViewerInList extends StatelessWidget {
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(3),
                                         topRight: Radius.circular(3))),
-                                child: CachedNetworkImage(
-                                  imageUrl: model.image,
-                                  progressIndicatorBuilder: (context, url,
-                                          downloadProgress) =>
-                                      Center(
-                                          child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                value:
-                                                    downloadProgress.progress,
-                                                backgroundColor: colorFFFFFF,
-                                                valueColor:
-                                                    new AlwaysStoppedAnimation<
-                                                        Color>(gray[200]),
-                                              ))),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                    'assets/images/special.png',
-                                    fit: BoxFit.cover,
-                                  ),
-                                  fit: BoxFit.contain,
-                                )))),
+                                child: getCachedNetworkImage()))),
                   if (productIsInFavoriteList())
                     Positioned(
                       right: 3,
@@ -862,29 +832,7 @@ class ProductViewerInList extends StatelessWidget {
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(3),
                                         topRight: Radius.circular(3))),
-                                child: CachedNetworkImage(
-                                  imageUrl: model.image,
-                                  progressIndicatorBuilder: (context, url,
-                                          downloadProgress) =>
-                                      Center(
-                                          child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                value:
-                                                    downloadProgress.progress,
-                                                backgroundColor: colorFFFFFF,
-                                                valueColor:
-                                                    new AlwaysStoppedAnimation<
-                                                        Color>(gray[200]),
-                                              ))),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                    'assets/images/special.png',
-                                    fit: BoxFit.cover,
-                                  ),
-                                  fit: BoxFit.contain,
-                                )))),
+                                child: getCachedNetworkImage()))),
                   if (productIsInFavoriteList())
                     Positioned(
                       right: 3,

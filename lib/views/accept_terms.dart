@@ -157,8 +157,8 @@ class AcceptTerms extends StatelessWidget {
               isEnabled: isEnabled,
               color: colorCF5A00,
               onClick: () async {
-                //         await LocalDatabase.setBool(
-                // LocalDatabase.termAndConditionSettedKey, true);
+                await LocalDatabase.setBool(
+                    LocalDatabase.termAndConditionSettedKey, true);
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

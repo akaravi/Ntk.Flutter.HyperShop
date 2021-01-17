@@ -6,6 +6,8 @@ import 'package:hypertools/theme/theme.dart';
 import 'package:hypertools/views/update_program.dart';
 import 'package:hypertools/views/user_register.dart';
 
+import 'qButton.dart';
+
 class AppDrawerMenu extends StatefulWidget {
   final MainUserBloc bloc;
   AppDrawerMenu({Key key, this.bloc}) : super(key: key);
@@ -19,7 +21,7 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
   Widget build(BuildContext context) {
     return Container(
         width: ScreenConfig.hBlocks * 75,
-        decoration: BoxDecoration(color: colorSplashBackground),
+        decoration: BoxDecoration(color: color1C1C1C),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,6 +30,14 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
             Stack(
               children: <Widget>[
                 logoImage(),
+                Positioned(
+                    left: 5,
+                    bottom: 5,
+                    child: Text(
+                      'نسخه : ' +
+                          widget.bloc.updateAppBloc.appVersion.toString(),
+                      style: textStyleRegular(size: 10, color: colorBABABA),
+                    ))
               ],
             ),
             getDescriptionTitle(widget.bloc.updateAppBloc.model.title,
@@ -43,26 +53,10 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
             getFullDescription('درباره ما', FontAwesomeIcons.addressCard,
                 widget.bloc.updateAppBloc.model.aboutUsDescription,
                 maxLines: 3),
-            if (widget.bloc.userHasLogined == false) loginUser(context),
             if (widget.bloc.userHasLogined) loggOut(context),
             contactUs(context),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Text(
-                    'نسخه : ' + widget.bloc.updateAppBloc.appVersion.toString(),
-                    style: textStyleRegular(size: 10, color: colorBlueLight),
-                  ),
-                ),
-                if (widget.bloc.updateAppBloc.updateAvailable)
-                  updateApp(context),
-                if (widget.bloc.updateAppBloc.updateAvailable == false)
-                  Container(),
-              ],
-            ),
+            if (widget.bloc.updateAppBloc.updateAvailable) updateApp(context),
+            if (widget.bloc.userHasLogined == false) loginUser(context),
             Container(),
             Container()
           ],
@@ -89,7 +83,7 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
                     openFromDrawer: true,
                   ),
               settings: RouteSettings(name: 'user register')));
-    }, icon: FontAwesomeIcons.solidUser, borderColor: colorCF5A00);
+    }, icon: FontAwesomeIcons.solidUser, backColor: colorCF5A00);
   }
 
   Widget updateApp(BuildContext ctx) {
@@ -101,7 +95,7 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
                     bloc: widget.bloc,
                     openFromDrawer: true,
                   ),
-              settings: RouteSettings(name: 'user register')));
+              settings: RouteSettings(name: 'user update')));
     }, icon: FontAwesomeIcons.download);
   }
 
@@ -118,7 +112,7 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
   }
 
   Widget getFullDescription(String title, IconData icon, String description,
-      {double titleFontSize = 14,
+      {double titleFontSize = 12,
       Color titleColor,
       String description2,
       int maxLines = 2}) {
@@ -130,12 +124,12 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
             titleColor: titleColor,
             paddingBottom: 0),
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 55, bottom: 10),
+          padding: EdgeInsets.only(left: 20, right: 55, bottom: 5),
           child: Text(
             (description == null ? 'ثبت نشده' : description),
             softWrap: true,
             maxLines: maxLines,
-            style: textStyleBold(color: colorBABABA, size: 12),
+            style: textStyleBold(color: colorBABABA, size: 10),
           ),
         ),
         if (description2 != null && description2.isNotEmpty)
@@ -165,8 +159,8 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-                width: 30,
-                height: 30,
+                width: 26,
+                height: 26,
                 child: Center(
                     child: Icon(
                   icon,
@@ -185,47 +179,32 @@ class _AppDrawerMenuState extends State<AppDrawerMenu> {
   }
 
   Widget getbutton(String title, Function onTap,
-      {IconData icon, Color borderColor}) {
-    if (borderColor == null) borderColor = blue[50];
-    return Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(),
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              child: GestureDetector(
-                  onTap: () {
-                    if (Scaffold.hasDrawer(context))
-                      Navigator.of(context).pop();
-                    if (onTap != null) onTap();
-                  },
-                  child: Container(
-                    width: ScreenConfig.vBlocks * 19,
-                    padding:
-                        EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 7),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: borderColor, width: 0.8),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (icon != null)
-                            Icon(icon, color: borderColor, size: 15),
-                          if (icon != null)
-                            Padding(
-                              padding: EdgeInsets.only(left: 5),
-                            ),
-                          Text(
-                            title,
-                            textAlign: TextAlign.center,
-                            style: textStyleBold(size: 12, color: borderColor),
-                          )
-                        ],
-                      ),
-                    ),
-                  )))
-        ]);
+      {IconData icon, Color backColor}) {
+    if (backColor == null) backColor = color000000;
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+        child: QButton(
+          allowLoading: false,
+          child: Center(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (icon != null) Icon(icon, color: colorFFFFFF, size: 15),
+                if (icon != null)
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                  ),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: textStyleBold(size: 12, color: colorFFFFFF),
+                )
+              ],
+            ),
+          ),
+          color: backColor,
+          isEnabled: true,
+          onClick: onTap,
+        ));
   }
 }
