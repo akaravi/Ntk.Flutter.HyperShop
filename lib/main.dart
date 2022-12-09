@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: Locale("fa", "IR"),
-      title: 'Flutter Demo',
+      title: 'Hyper Shop',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Vazir'),
       home: SplashScreen(bloc: BlocProviderChild.bloc),
       debugShowCheckedModeBanner: false,
